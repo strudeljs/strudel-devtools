@@ -16,12 +16,15 @@ module.exports = {
       colors: true,
       reasons: true
     },
-  
+
     entry: {
-      'frontend': ['./src/frontend/app'],  
-      'devtools': ['./src/devtools/devtools']
+      'backend': ['./src/backend/backend'],
+      'content-script': ['./src/content-script'],
+      'frontend': ['./src/frontend/app'],
+      'devtools': ['./src/devtools/devtools'],
+      'background': ['./src/background/background']
     },
-  
+
     output: {
       path: root('build'),
       filename: '[name].js',
@@ -41,4 +44,3 @@ module.exports = {
         ]
       }
   };
-  

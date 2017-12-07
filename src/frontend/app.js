@@ -1,8 +1,20 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from 'react-dom';
+import { Provider } from 'react-redux';
+import { Store } from 'react-chrome-redux';
+import { EXTENSION_ID, PORT_NAME } from '../options';
+
 import ComponentTree from './components/component-tree/component-tree';
 
-ReactDOM.render(
-    <ComponentTree/>,
-    document.getElementById('root')
-);
+const store = new Store({
+  extensionId: EXTENSION_ID,
+  portName: PORT_NAME
+});
+
+store.ready().then(() => {
+  render(
+    <Provider store={store}>
+      <ComponentTree />
+    </Provider>,
+    document.getElementById('app'));
+});

@@ -1,0 +1,5 @@
+const EXTENSION_ID = "STRUDEL";
+
+const PORT_NAME = "STRUDEL";
+
+export { EXTENSION_ID, PORT_NAME };

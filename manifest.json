@@ -12,6 +12,21 @@
     "default_icon": "icons/icon16.png",
     "default_popup": "popup.html"
   },
+  "content_scripts": [{
+    "matches": [
+      "<all_urls>"
+    ],
+    "js": [
+      "build/content-script.js"
+    ],
+    "run_at": "document_end"
+  }],
+  "background": {
+    "scripts": [
+      "build/background.js"
+    ],
+    "persistent": false
+  },
   "icons": {
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",
