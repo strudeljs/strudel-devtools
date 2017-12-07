@@ -7,14 +7,15 @@ import { EXTENSION_ID, PORT_NAME } from '../options';
 import ComponentTree from './components/component-tree/component-tree';
 
 const store = new Store({
-  extensionId: EXTENSION_ID,
   portName: PORT_NAME
 });
 
 store.ready().then(() => {
   render(
     <Provider store={store}>
-      <ComponentTree />
+      <ComponentTree
+        components={store.getState()}/>
     </Provider>,
-    document.getElementById('app'));
+    document.getElementById('root')
+  );
 });
