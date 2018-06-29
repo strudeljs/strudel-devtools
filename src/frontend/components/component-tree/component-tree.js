@@ -4,11 +4,17 @@ class ComponentTree extends Component {
   render() {
     const { components } = this.props;
     const value = components.components;
+    console.log(value);
 
     return (
-      <p>
-        Components: { value.length }
-      </p>
+      <div>
+        <p>
+          Components: { value.length }
+        </p>
+        <p>
+          { value }
+        </p>
+      </div>
     );
   }
 }

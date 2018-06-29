@@ -28,9 +28,9 @@ const injectScript = (file) => {
 
 const initStrudel = () => {
   const componentsScopes = [];
-  const componentsElements = document.getElementsByClassName('strudel-init');
-  console.log(componentsElements);
+  const componentsElements = document.querySelectorAll('.strudel-init');
   componentsElements.forEach((element) => {
+    console.log(element);
     componentsScopes.push(element.scope);
   });
   
