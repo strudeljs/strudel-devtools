@@ -1,5 +1,6 @@
 import {
   ADD_COMPONENT,
+  CHECK_STRUDEL,
 } from './actions';
 
 const initialState = {
@@ -12,6 +13,10 @@ const app = (state = initialState, action) => {
       return Object.assign({}, state, {
         components: [...state.components, action.component]
       })
+    case CHECK_STRUDEL: 
+      return Object.assign({}, state, {
+        components: action.componentsScopes
+      }) 
     default:
       return state
   }

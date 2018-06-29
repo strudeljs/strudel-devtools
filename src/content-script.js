@@ -1,3 +1,16 @@
+import { Store } from 'react-chrome-redux';
+import { EXTENSION_ID, PORT_NAME } from './options';
+import { addComponent, checkStrudel } from './communication/actions'
+
+const store = new Store({
+  portName: PORT_NAME
+});
+
+store.ready().then(() => {
+  store.dispatch(addComponent('TEST'));
+  store.dispatch(checkStrudel(initStrudel()));
+});
+
 const injectId = () => {
   var script = document.createElement('script');
   script.textContent = "var extensionId = " + JSON.stringify(chrome.runtime.id);
@@ -11,6 +24,17 @@ const injectScript = (file) => {
   script.setAttribute('type', 'text/javascript');
   script.setAttribute('src', file);
   script.parentNode.removeChild(script);
+}
+
+const initStrudel = () => {
+  const componentsScopes = [];
+  const componentsElements = document.getElementsByClassName('strudel-init');
+  console.log(componentsElements);
+  componentsElements.forEach((element) => {
+    componentsScopes.push(element.scope);
+  });
+  
+  return componentsScopes;
 }
 
 injectId();
