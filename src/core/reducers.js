@@ -1,17 +1,19 @@
 import {
-  ADD_COMPONENT,
+  INIT,
 } from './actions';
 
 const initialState = {
+  version: '',
   components: []
 }
 
 const app = (state = initialState, action) => {
   switch (action.type) {
-    case ADD_COMPONENT:
+    case INIT:
       return Object.assign({}, state, {
-        components: [...state.components, action.component]
-      })
+        version: action.version,
+        components: action.components
+      });
     default:
       return state
   }

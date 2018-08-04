@@ -18,11 +18,13 @@ module.exports = {
     },
 
     entry: {
-      'backend': ['./src/backend/backend'],
-      'content-script': ['./src/content-script'],
-      'frontend': ['./src/frontend/app'],
-      'devtools': ['./src/devtools/devtools'],
-      'background': ['./src/background/background']
+      'hook': ['./src/backend/hook'],
+      'detector': ['./src/backend/detector'],
+      'proxy': ['./src/backend/proxy'],
+      'backend': ['./src/backend/index'],
+      'devtools-background': ['./src/devtools-background/index'],
+      'devtools': ['./src/devtools/index'],
+      'background': ['./src/background/index']
     },
 
     output: {
@@ -40,6 +42,28 @@ module.exports = {
             use: {
               loader: 'babel-loader'
             }
+          },
+          {
+            test: /\.css$/,
+            use: [{
+              loader: 'style-loader'
+            }, {
+              loader: 'css-loader',
+              options: {
+                modules: true,
+                localIdentName: '[path][name]__[local]--[hash:base64:5]'
+              }
+            }]
+          },
+          {
+            test: /\.(png|jp(e*)g|svg)$/,
+            use: [{
+              loader: 'url-loader',
+              options: {
+                limit: 8000, // Convert images < 8kb to base64 strings
+                name: 'images/[hash]-[name].[ext]'
+              }
+            }]
           }
         ]
       }
