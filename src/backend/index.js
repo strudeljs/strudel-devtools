@@ -29,8 +29,10 @@ const getInstanceProperties = (instance) => {
   };
 
   Object.keys(instance).forEach((property) => {
-    properties[property] = instance[property];
-  })
+    if (instance[property].constructor && instance[property].constructor.name !== 'Element') {
+      properties[property] = instance[property];
+    }
+  });
 
   delete properties['$element'];
   delete properties['$data'];

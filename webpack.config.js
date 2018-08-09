@@ -1,22 +1,21 @@
-var path = require('path');
-var sliceArgs = Function.prototype.call.bind(Array.prototype.slice);
+const path = require('path');
+const sliceArgs = Function.prototype.call.bind(Array.prototype.slice);
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 function root(args) {
     args = sliceArgs(arguments, 0);
     return path.join.apply(path, [__dirname].concat(args));
 }
 
-
 module.exports = {
-    devtool: 'source-map',
+    devtool: 'inline-source-map',
     cache: true,
+    mode: 'development',
     context: __dirname,
-
     stats: {
       colors: true,
       reasons: true
     },
-
     entry: {
       'hook': ['./src/backend/hook'],
       'detector': ['./src/backend/detector'],
@@ -34,6 +33,15 @@ module.exports = {
       chunkFilename: '[id].chunk.js'
     },
 
+    plugins: [
+      new MiniCssExtractPlugin({
+        // Options similar to the same options in webpackOptions.output
+        // both options are optional
+        filename: "[name].css",
+        chunkFilename: "[id].css"
+      })
+    ],
+
     module: {
         rules: [
           {
@@ -45,15 +53,12 @@ module.exports = {
           },
           {
             test: /\.css$/,
-            use: [{
-              loader: 'style-loader'
-            }, {
-              loader: 'css-loader',
-              options: {
-                modules: true,
-                localIdentName: '[path][name]__[local]--[hash:base64:5]'
-              }
-            }]
+            use: [
+              {
+                loader: MiniCssExtractPlugin.loader
+              },
+              "css-loader"
+            ]
           },
           {
             test: /\.(png|jp(e*)g|svg)$/,

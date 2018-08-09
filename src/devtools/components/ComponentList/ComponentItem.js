@@ -1,10 +1,24 @@
 import React, { Component } from 'react';
-import styles from './ComponentList.css';
 
 class ComponentItem extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {selected: false};
+  }
+
+  handleClick() {
+    this.setState(() => ({
+      selected: true
+    }));
+  }
+
   render() {
+    const className = `item ${this.state.selected ? 'selected' : ''}`;
+
     return (
-      <p className={styles.item}>&lt;{this.props.name}&gt;</p>
+      <p className={className} onClick={this.handleClick.bind(this)}>
+        <span>&lt;</span>{this.props.name}<span>&gt;</span>
+      </p>
     )
   }
 }

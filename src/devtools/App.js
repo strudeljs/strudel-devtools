@@ -1,26 +1,30 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import Header from './components/Header/Header';
-import ComponentList from './components/ComponentList/ComponentList';
+import ComponentsTab from './views/components/ComponentsTab';
+import EventsTab from './views/events/EventsTab.js';
+
+const NoMatch = () => (
+  <p>No Match</p>
+);
 
 class App extends Component {
   render() {
-    const { components, version } = this.props;
+    const { theme } = this.props;
+    const className = `app ${theme}`;
 
     return (
-      <div>
-        <Header version={version}/>
-        <ComponentList components={components}/>
+      <div className={className}>
+        <Header />
+        <Switch>
+          <Route path="/components" component={ComponentsTab} />
+          <Route path="/events" component={EventsTab} />
+          <Route path="/" render={() => (<Redirect to="/components" />)} />
+          <Route path="*" component={NoMatch} />
+        </Switch>
       </div>
     );
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    components: state.components,
-    version: state.version
-  };
-};
-
-export default connect(mapStateToProps)(App);
+export default App;

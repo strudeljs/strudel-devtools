@@ -1,0 +1,123 @@
+body {
+  padding: 0;
+  margin: 0;
+  font-family: 'Lato', sans-serif;
+  font-size: 16px;
+}
+
+.app {
+  --main-text-color: #757575cc;
+  --border-color: rgba(0,0,0,.08);
+  --brand-color: #ffda5c;
+  --highlight-color: #534227;
+  --background: #fff;
+  color: var(--main-text-color);
+}
+
+.app.dark {
+  --main-text-color: #ffffff84;
+  --border-color: rgba(255,255,255,.08);
+  --highlight-color: var(--brand-color);
+  --background: #242424;
+}
+
+input {
+  box-sizing: border-box;
+  background: transparent;
+  border: 0;
+  font-size: 16px;
+  padding: 15px 10px 15px 30px;
+  border-bottom: 1px solid var(--border-color);
+  width: 100%;
+  outline: none;
+  color: var(--main-text-color);
+  background: var(--background) url(assets/search.svg) 10px 17px no-repeat;
+}
+
+::-webkit-input-placeholder {
+  color: #cccccc;
+}
+
+.list {
+  padding: 10px 5px;
+  margin: 0;
+}
+
+.item {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 16px;
+  color: var(--highlight-color);
+  padding: 3px 5px;
+  margin: 0;
+  box-sizing: border-box;
+  margin-bottom: 2px;
+  cursor: pointer;
+}
+
+.item.selected {
+  background: var(--brand-color);
+  border-radius: 3px;
+}
+
+.item span {
+  color: var(--main-text-color);
+  opacity: .5;
+}
+
+.header {
+  padding: 15px 10px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.logo {
+  width: 30px;
+}
+
+.heading {
+  font-family: 'Comfortaa', cursive;
+  font-weight: 600;
+  display: inline-block;
+  vertical-align: top;
+  color: var(--highlight-color);
+  font-size: 16px;
+  line-height: 10px;
+  margin-left: 15px;
+}
+
+.navigation {
+  float: right;
+  padding-top: 3px;
+}
+
+.navigation a {
+  display: inline-block;
+  margin: 0 15px;
+  font-size: 16px;
+  color: var(--main-text-color);
+  padding-bottom: 3px;
+  text-decoration: none;
+}
+
+.navigation .active {
+  border-bottom: 4px solid var(--brand-color);
+}
+
+.column {
+  display: inline-block;
+  vertical-align: top;
+  width: 50%;
+  height: calc(100vh - 64px);
+  box-sizing: border-box;
+  position: relative;
+}
+
+.column + .column {
+  border-left: 1px solid var(--border-color);;
+}
+
+.empty {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
