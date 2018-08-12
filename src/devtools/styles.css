@@ -112,7 +112,8 @@ input {
 }
 
 .column + .column {
-  border-left: 1px solid var(--border-color);;
+  border-left: 1px solid var(--border-color);
+  padding: 10px;
 }
 
 .empty {

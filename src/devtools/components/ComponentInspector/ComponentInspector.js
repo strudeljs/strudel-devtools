@@ -2,11 +2,22 @@ import React, { Component } from 'react';
 
 class ComponentInspector extends Component {
   render() {
-    return (
-      <div>
-        <p className="empty">Select a component to inspect properties</p>
-      </div>
-    )
+    let noComponentSelectedMsg;
+    let inspector;
+
+    if (this.props.component) {
+      inspector = 
+        <div>
+          <p>Selector: {this.props.component.strudelProps.selector}</p>
+        </div>;
+    } else {
+      noComponentSelectedMsg = 
+        <div>
+          <p className="empty">Select a component instance to inspect</p>
+        </div>;
+    }
+
+    return this.props.component ? inspector : noComponentSelectedMsg;
   }
 }
 

@@ -1,5 +1,6 @@
 import {
   INIT,
+  SELECT_COMPONENT,
 } from './actions';
 
 const initialState = {
@@ -14,10 +15,15 @@ const app = (state = initialState, action) => {
         version: action.version,
         components: action.components
       });
+    case SELECT_COMPONENT:
+      return Object.assign({}, state, {
+        components: state.components.map(
+          (component, index) => Object.assign({}, component, { selected: action.index === index })
+        )
+      });
     default:
       return state
   }
 }
 
 export default app;
-

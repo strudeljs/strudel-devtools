@@ -6,6 +6,7 @@ import ComponentInspector from '../../components/ComponentInspector/ComponentIns
 class ComponentsContainer extends Component {
   render() {
     const { components } = this.props;
+    const selectedComponent = components.find(component => component.selected);
 
     return (
       <div>
@@ -13,7 +14,7 @@ class ComponentsContainer extends Component {
           <ComponentList components={components}/>
         </div>
         <div className="column">
-          <ComponentInspector/>
+          <ComponentInspector component={selectedComponent}/>
         </div>
       </div>
     );

@@ -45,7 +45,7 @@ const scan = () => {
 
   walk(document, function (node) {
     if (node.__strudel__) {
-      components.push(getInstanceProperties(node.__strudel__));
+      components.push({ strudelProps: getInstanceProperties(node.__strudel__) });
     }
 
     return !node.childNodes;

@@ -6,17 +6,11 @@ class ComponentItem extends Component {
     this.state = {selected: false};
   }
 
-  handleClick() {
-    this.setState(() => ({
-      selected: true
-    }));
-  }
-
   render() {
-    const className = `item ${this.state.selected ? 'selected' : ''}`;
+    const className = `item ${this.props.selected ? 'selected' : ''}`;
 
     return (
-      <p className={className} onClick={this.handleClick.bind(this)}>
+      <p className={className} onClick={() => this.props.clickHandler()}>
         <span>&lt;</span>{this.props.name}<span>&gt;</span>
       </p>
     )
