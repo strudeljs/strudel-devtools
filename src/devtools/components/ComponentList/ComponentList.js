@@ -14,8 +14,8 @@ class ComponentList extends Component {
               <ComponentItem
                 key={i}
                 name={component.strudelProps.name}
-                selected={component.selected}
-                clickHandler={() => this.props.selectComponent({ index: i })}></ComponentItem>
+                selected={component.id === this.props.selectedComponentId}
+                clickHandler={() => this.props.selectComponent({ id: component.id })}></ComponentItem>
             )
           })}
         </ul>
@@ -25,7 +25,7 @@ class ComponentList extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  selectComponent: (index) => dispatch(selectComponent(index))
+  selectComponent: (id) => dispatch(selectComponent(id))
 })
 
 export default connect(null, mapDispatchToProps)(ComponentList);

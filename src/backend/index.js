@@ -42,10 +42,14 @@ const getInstanceProperties = (instance) => {
 
 const scan = () => {
   var components = [];
+  let id = 1;
 
   walk(document, function (node) {
     if (node.__strudel__) {
-      components.push({ strudelProps: getInstanceProperties(node.__strudel__) });
+      components.push({
+        id: id++,
+        strudelProps: getInstanceProperties(node.__strudel__) 
+      });
     }
 
     return !node.childNodes;

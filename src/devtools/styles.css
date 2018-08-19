@@ -113,7 +113,6 @@ input {
 
 .column + .column {
   border-left: 1px solid var(--border-color);
-  padding: 10px;
 }
 
 .empty {
@@ -121,4 +120,31 @@ input {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+.inspector-heading {
+  box-sizing: border-box;
+  border-bottom: 1px solid var(--border-color);
+  margin: 0;
+  padding: 13.5px 10px;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.inspector-heading:hover {
+  cursor: default;
+}
+
+.inspector-content {
+  padding: 10px;
+}
+
+.inspector-item {
+  font-family: 'Roboto Mono', monospace;
+  margin: 0;
+  font-size: 14px;
+}
+
+.inspector-item > span:first-of-type {
+  color: var(--highlight-color);
 }

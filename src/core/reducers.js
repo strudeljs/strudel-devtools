@@ -5,6 +5,7 @@ import {
 
 const initialState = {
   version: '',
+  selectedComponentId: null,
   components: []
 }
 
@@ -16,11 +17,7 @@ const app = (state = initialState, action) => {
         components: action.components
       });
     case SELECT_COMPONENT:
-      return Object.assign({}, state, {
-        components: state.components.map(
-          (component, index) => Object.assign({}, component, { selected: action.index === index })
-        )
-      });
+      return Object.assign({}, state, { selectedComponentId: action.id });
     default:
       return state
   }
