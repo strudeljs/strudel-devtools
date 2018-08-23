@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { selected } from '../../../core/actions';
 
 class ComponentItem extends Component {
   constructor(props) {
@@ -10,17 +12,19 @@ class ComponentItem extends Component {
     this.setState(() => ({
       selected: true
     }));
+    this.props.dispatch(selected(this.props.component.id));
   }
 
   render() {
     const className = `item ${this.state.selected ? 'selected' : ''}`;
 
     return (
-      <p className={className} onClick={this.handleClick.bind(this)}>
-        <span>&lt;</span>{this.props.name}<span>&gt;</span>
-      </p>
+      <li className={className} onClick={this.handleClick.bind(this)}>
+        <span>&lt;</span>{this.props.component.name}<span>&gt;</span>
+      </li>
     )
   }
 }
 
-export default ComponentItem;
+
+export default connect(null, null)(ComponentItem);

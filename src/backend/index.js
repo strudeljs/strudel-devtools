@@ -1,6 +1,8 @@
 import { init } from '../core/actions';
+import { initEventsBackend } from './events';
 
 const hook = window.__STRUDEL_DEVTOOLS_GLOBAL_HOOK__;
+let uid = 0;
 
 export function initBackend () {
   if (hook.Strudel) {
@@ -22,22 +24,10 @@ const walk = (node, fn) => {
   }
 }
 
-const getInstanceProperties = (instance) => {
-  let properties = {
-    name: instance.constructor.name,
-    selector: instance.__proto__._selector
+const getInstanceDetails = (instance) => {
+  return {
+    name: instance.constructor.name
   };
-
-  Object.keys(instance).forEach((property) => {
-    if (instance[property].constructor && instance[property].constructor.name !== 'Element') {
-      properties[property] = instance[property];
-    }
-  });
-
-  delete properties['$element'];
-  delete properties['$data'];
-
-  return properties;
 }
 
 const scan = () => {
@@ -45,11 +35,20 @@ const scan = () => {
 
   walk(document, function (node) {
     if (node.__strudel__) {
-      components.push(getInstanceProperties(node.__strudel__));
+      const id = ++uid;
+      const instance = node.__strudel__;
+      instance.__STRUDEL_DEVTOOLS_UID__ = id;
+
+      components.push({
+        ...getInstanceDetails(instance),
+         id
+      });
     }
 
     return !node.childNodes;
   });
+
+  initEventsBackend(hook.Strudel);
 
   window.postMessage({
     action: 'INIT',
