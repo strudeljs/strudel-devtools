@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
-import Header from './components/Header/Header';
+import Header from './components/Header';
 import ComponentsTab from './views/components/ComponentsTab';
 import EventsTab from './views/events/EventsTab.js';
 

@@ -1,20 +1,22 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import ComponentList from '../../components/ComponentList/ComponentList';
-import ComponentInspector from '../../components/ComponentInspector/ComponentInspector';
+import ComponentList from './ComponentList';
+import ComponentInspector from './ComponentInspector';
+import SplitPane from '../../components/SplitPane';
+import ScrollPane from '../../components/ScrollPane';
 
-class ComponentsContainer extends Component {
+class ComponentsTab extends Component {
   render() {
     const { components } = this.props;
 
     return (
       <div>
-        <div className="column">
-          <ComponentList components={components}/>
-        </div>
-        <div className="column">
-          <ComponentInspector/>
-        </div>
+        <SplitPane>
+          <ComponentList key="left" components={components}/>
+          <ScrollPane key="right">
+            <ComponentInspector/>
+          </ScrollPane>
+        </SplitPane>
       </div>
     );
   }
@@ -26,4 +28,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(ComponentsContainer);
+export default connect(mapStateToProps)(ComponentsTab);

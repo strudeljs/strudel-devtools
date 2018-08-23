@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink, withRouter } from 'react-router-dom';
-import logo from '../../assets/logo.png';
+import logo from '../assets/logo.png';
 
 
 class Header extends Component {
