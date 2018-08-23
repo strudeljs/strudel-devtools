@@ -1,11 +1,7 @@
 import { Store } from 'react-chrome-redux';
 import { portName } from '../config';
-import {
-  INIT, 
-  SELECT_COMPONENT, 
-  init, 
-  selectComponent,
-} from '../core/actions';
+import { ALIAS_TYPES } from '../core/aliases';
+import { TYPES, init } from '../core/actions';
 
 const store = new Store({
   portName
@@ -13,23 +9,27 @@ const store = new Store({
 
 window.addEventListener('message', (e) => {
   if (e.source === window) {
-    if (e.data.action === INIT) {
-      store.dispatch(init({
-        version: e.data.version,
-        components: e.data.components
-      }));
-    } else if (e.data.action === SELECT_COMPONENT) {
-      store.dispatch(selectComponent({
-        id: e.data.id
-      }));
+    switch(e.data.action) {
+      case TYPES.INIT:
+        store.dispatch(init({
+          version: e.data.version,
+          components: e.data.components
+        }));
+      default:
+        return;
     }
   }
 });
 
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
-    console.log("message from background received", request, sender);
-    if (request.greeting == "hello") {
-      sendResponse({farewell: "goodbye"});
+    if (request.type) {
+      switch (request.type) {
+        case ALIAS_TYPES.SELECT_COMPONENT:
+          // TBD: collect more data on specific component instance
+          return sendResponse({});
+        default:
+          return;
+      }
     }
 });

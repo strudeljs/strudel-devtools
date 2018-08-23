@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import ComponentItem from './ComponentItem';
-import { selectComponent } from './../../../core/actions';
+import { aliasCreators } from './../../../core/aliases';
 
 class ComponentList extends Component {
   render() {
@@ -15,7 +15,7 @@ class ComponentList extends Component {
                 key={i}
                 name={component.strudelProps.name}
                 selected={component.id === this.props.selectedComponentId}
-                clickHandler={() => this.props.selectComponent({ id: component.id })}></ComponentItem>
+                clickHandler={() => this.props.selectComponent(component.id)}></ComponentItem>
             )
           })}
         </ul>
@@ -25,7 +25,9 @@ class ComponentList extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  selectComponent: (id) => dispatch(selectComponent(id))
+  selectComponent: (id) => {
+    dispatch(aliasCreators.selectComponent({ id }));
+  }
 })
 
 export default connect(null, mapDispatchToProps)(ComponentList);

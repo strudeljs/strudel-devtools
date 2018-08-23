@@ -8,8 +8,6 @@ class ComponentsContainer extends Component {
     const { components, selectedComponentId } = this.props;
     const selectedComponent = components.find(component => component.id === selectedComponentId);
 
-    console.log(this.props);
-
     return (
       <div>
         <div className="column">
@@ -26,7 +24,6 @@ class ComponentsContainer extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log('state: ', state);
   return {
     components: state.components,
     selectedComponentId: state.selectedComponentId,

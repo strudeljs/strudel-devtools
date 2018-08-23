@@ -1,7 +1,4 @@
-import {
-  INIT,
-  SELECT_COMPONENT,
-} from './actions';
+import { TYPES } from './actions';
 
 const initialState = {
   version: '',
@@ -11,12 +8,12 @@ const initialState = {
 
 const app = (state = initialState, action) => {
   switch (action.type) {
-    case INIT:
+    case TYPES.INIT:
       return Object.assign({}, state, {
         version: action.version,
         components: action.components
       });
-    case SELECT_COMPONENT:
+    case TYPES.SELECT_COMPONENT:
       return Object.assign({}, state, { selectedComponentId: action.id });
     default:
       return state
