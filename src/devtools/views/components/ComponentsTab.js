@@ -5,15 +5,18 @@ import ComponentInspector from '../../components/ComponentInspector/ComponentIns
 
 class ComponentsContainer extends Component {
   render() {
-    const { components } = this.props;
+    const { components, selectedComponentId } = this.props;
+    const selectedComponent = components.find(component => component.id === selectedComponentId);
 
     return (
       <div>
         <div className="column">
-          <ComponentList components={components}/>
+          <ComponentList
+            components={components}
+            selectedComponentId={selectedComponentId}/>
         </div>
         <div className="column">
-          <ComponentInspector/>
+          <ComponentInspector component={selectedComponent}/>
         </div>
       </div>
     );
@@ -22,7 +25,8 @@ class ComponentsContainer extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    components: state.components
+    components: state.components,
+    selectedComponentId: state.selectedComponentId,
   };
 };
 
