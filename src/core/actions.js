@@ -3,10 +3,6 @@ export const TYPES = {
   SELECT_COMPONENT: 'SELECT_COMPONENT',
 };
 
-export const init = ({ version, components }) => {
-  return { type: TYPES.INIT, version, components };
-};
+export const init = ({ version, components }) => ({ type: TYPES.INIT, version, components });
 
-export const selectComponent = ({ id }) => {
-  return { type: TYPES.SELECT_COMPONENT, id };
-};
+export const selectComponent = ({ id }) => ({ type: TYPES.SELECT_COMPONENT, id });

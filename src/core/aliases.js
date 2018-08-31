@@ -1,7 +1,9 @@
 import { TYPES, selectComponent } from './actions';
 
-export const ALIAS_TYPES = {};
-Object.keys(TYPES).forEach(action => ALIAS_TYPES[action] = `${action}-ALIAS`);
+export const ALIAS_TYPES = Object.keys(TYPES).reduce((aliases, action) => ({
+  ...aliases,
+  [action]: `${action}_ALIAS`,
+}), {});
 
 export const aliasCreators = { 
   selectComponent: ({ id }) => ({
