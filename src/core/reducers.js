@@ -36,7 +36,8 @@ const app = (state = initialState, action) => {
       });
     case FLUSH_EVENT:
       return Object.assign({}, state, {
-        events: []
+        events: [],
+        selectedEvent: false
       });
     case SELECTED_EVENT:
       const payload = parse(action.event.payload);

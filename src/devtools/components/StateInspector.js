@@ -6,7 +6,7 @@ class StateInspector extends Component {
     const { data } = this.props;
 
     return (
-      <div class="inspector">
+      <div className="inspector">
         { data ?
           (Object.keys(data).map((key, i) => {
             return (<Property key={key} prop={key} value={data[key]}/>)

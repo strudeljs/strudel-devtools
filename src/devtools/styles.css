@@ -184,6 +184,7 @@ input {
   margin-top: -9px;
   cursor: pointer;
   outline: none;
+  color: var(--main-text-color);
 }
 
 .is-hidden {
