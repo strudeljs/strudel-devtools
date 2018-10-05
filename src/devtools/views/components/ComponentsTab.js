@@ -1,23 +1,23 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import ComponentList from '../../components/ComponentList/ComponentList';
-import ComponentInspector from '../../components/ComponentInspector/ComponentInspector';
+import ComponentList from './ComponentList';
+import ComponentInspector from './ComponentInspector';
+import SplitPane from '../../components/SplitPane';
+import ScrollPane from '../../components/ScrollPane';
 
-class ComponentsContainer extends Component {
+class ComponentsTab extends Component {
   render() {
     const { components, selectedComponentId } = this.props;
     const selectedComponent = components.find(component => component.id === selectedComponentId);
 
     return (
       <div>
-        <div className="column">
-          <ComponentList
-            components={components}
-            selectedComponentId={selectedComponentId}/>
-        </div>
-        <div className="column">
-          <ComponentInspector component={selectedComponent}/>
-        </div>
+        <SplitPane>
+          <ComponentList key="left" components={components} selectedComponentId={selectedComponentId}/>
+          <ScrollPane key="right">
+            <ComponentInspector component={selectedComponent}/>
+          </ScrollPane>
+        </SplitPane>
       </div>
     );
   }
@@ -30,4 +30,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(ComponentsContainer);
+export default connect(mapStateToProps)(ComponentsTab);
