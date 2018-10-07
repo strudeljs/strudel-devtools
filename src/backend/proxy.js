@@ -21,6 +21,9 @@ window.addEventListener('message', (e) => {
           event: e.data.event
         }));
         break;
+      case TYPES.SELECTED_COMPONENT_DATA:
+        console.log(e.data.data);
+        break;
       default:
         return;
     }
@@ -32,7 +35,10 @@ chrome.runtime.onMessage.addListener(
     if (request.type) {
       switch (request.type) {
         case ALIAS_TYPES.SELECT_COMPONENT:
-          // TBD: collect more data on specific component instance
+          window.postMessage({
+            action: TYPES.SELECT_COMPONENT,
+            id: request.id,
+          }, '*');
           return sendResponse({});
         default:
           return;

@@ -1,7 +1,8 @@
-import { init } from '../core/actions';
+import { init, TYPES } from '../core/actions';
 import { initEventsBackend } from './events';
 
 const hook = window.__STRUDEL_DEVTOOLS_GLOBAL_HOOK__;
+const components = [];
 
 export function initBackend () {
   if (hook.Strudel) {
@@ -9,6 +10,15 @@ export function initBackend () {
   } else {
     hook.once('init', connect)
   }
+
+  window.addEventListener('message', (e) => {
+    if (e.source === window && e.data.action === TYPES.SELECT_COMPONENT) {
+      window.postMessage({
+        action: TYPES.SELECTED_COMPONENT_DATA,
+        data: JSON.stringify(components[e.data.id - 1]),
+      }, '*');
+    }
+  });
 }
 
 const walk = (node, fn) => {
@@ -18,7 +28,7 @@ const walk = (node, fn) => {
       const stop = fn(child);
       if (!stop) {
         walk(child, fn);
-      }
+      } 
     }
   }
 }
@@ -35,15 +45,11 @@ const getInstanceDetails = (instance) => {
     }
   });
 
-  delete properties['$element'];
-  delete properties['$data'];
-
   return properties;
 }
 
 const scan = () => {
-  var components = [];
-  let uid = 1;
+  let uid = 0;
 
   walk(document, function (node) {
     if (node.__strudel__) {
@@ -63,9 +69,15 @@ const scan = () => {
   initEventsBackend(hook.Strudel);
 
   window.postMessage({
-    action: 'INIT',
+    action: TYPES.INIT,
     version: hook.Strudel.version,
-    components: components
+    components: components.map(c => ({
+      id: c.id,
+      strudelProps: {
+        name: c.strudelProps.name,
+        selector: c.strudelProps.selector,
+      }
+    }))
   }, '*');
 }
 
