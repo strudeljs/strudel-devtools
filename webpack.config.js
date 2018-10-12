@@ -8,14 +8,10 @@ function root(args) {
 }
 
 module.exports = {
-    devtool: 'inline-source-map',
+    devtool: process.env.NODE_ENV !== 'production' ? '#inline-source-map' : false,
+    mode: process.env.NODE_ENV !== 'production' ? 'development': 'production',
     cache: true,
-    mode: 'development',
     context: __dirname,
-    stats: {
-      colors: true,
-      reasons: true
-    },
     entry: {
       'hook': ['./src/backend/hook'],
       'detector': ['./src/backend/detector'],
@@ -25,23 +21,18 @@ module.exports = {
       'devtools': ['./src/devtools/index'],
       'background': ['./src/background/index']
     },
-
     output: {
       path: root('build'),
       filename: '[name].js',
       sourceMapFilename: '[name].js.map',
       chunkFilename: '[id].chunk.js'
     },
-
     plugins: [
       new MiniCssExtractPlugin({
-        // Options similar to the same options in webpackOptions.output
-        // both options are optional
         filename: "[name].css",
         chunkFilename: "[id].css"
       })
     ],
-
     module: {
         rules: [
           {

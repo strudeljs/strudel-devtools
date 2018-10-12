@@ -1,12 +1,13 @@
 {
   "name": "strudel-devtools",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Devtools for Strudel.js",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --colors",
-    "dev": "webpack --colors --watch",
-    "zip": "zip -r9 -FS dist/chrome.zip . -x 'node_modules/*' -x 'webpack.config.js' -x '.*/*' -x '.*' -x 'src/*' -x 'dist/*'"
+    "dev": "webpack --watch",
+    "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
+    "release": "node release.js && npm run build && npm run zip",
+    "zip": "zip -r9 -FS dist/chrome.zip build icons popups *.html manifest.json"
   },
   "keywords": [],
   "author": "Mateusz Luczak <mateusz.luczak@outlook.com>",
@@ -16,6 +17,7 @@
     "@babel/preset-env": "^7.0.0-beta.34",
     "@babel/preset-react": "^7.0.0-beta.34",
     "babel-loader": "^8.0.0-beta.0",
+    "cross-env": "^5.2.0",
     "css-loader": "^0.28.11",
     "file-loader": "^1.1.11",
     "mini-css-extract-plugin": "^0.4.1",
@@ -25,12 +27,14 @@
   },
   "dependencies": {
     "fuzzysearch": "^1.0.3",
+    "inquirer": "^6.2.0",
     "react": "^16.2.0",
     "react-chrome-redux": "^1.4.0",
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.6",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
-    "redux": "^3.7.2"
+    "redux": "^3.7.2",
+    "semver": "^5.6.0"
   }
 }
