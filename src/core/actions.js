@@ -13,7 +13,7 @@ export const init = ({ version, components }) => ({ type: TYPES.INIT, version, c
 
 export const selectComponent = ({ id }) => ({ type: TYPES.SELECT_COMPONENT, id });
 
-export const selectedComponentData = ({ id }) => ({ type: TYPES.SELECTED_COMPONENT_DATA, id });
+export const selectedComponentData = ({ data }) => ({ type: TYPES.SELECTED_COMPONENT_DATA, data });
 
 export const eventTrigger = ({ event }) => ({ type: TYPES.EVENT, event });
 

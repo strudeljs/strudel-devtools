@@ -1,7 +1,7 @@
 import { Store } from 'react-chrome-redux';
 import { portName } from '../config';
 import { ALIAS_TYPES } from '../core/aliases';
-import { TYPES, init, eventTrigger } from '../core/actions';
+import { TYPES, init, eventTrigger, selectedComponentData } from '../core/actions';
 
 const store = new Store({
   portName
@@ -22,7 +22,9 @@ window.addEventListener('message', (e) => {
         }));
         break;
       case TYPES.SELECTED_COMPONENT_DATA:
-        console.log(e.data.data);
+        store.dispatch(selectedComponentData({
+          data: e.data.data
+        }));
         break;
       default:
         return;

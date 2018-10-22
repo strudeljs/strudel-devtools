@@ -13,9 +13,16 @@ export function initBackend () {
 
   window.addEventListener('message', (e) => {
     if (e.source === window && e.data.action === TYPES.SELECT_COMPONENT) {
+      const strudelProps = components[e.data.id - 1].strudelProps;
+      const data = {
+        name: strudelProps.name,
+        selector: strudelProps.selector,
+        data: strudelProps.$data,
+      };
+
       window.postMessage({
         action: TYPES.SELECTED_COMPONENT_DATA,
-        data: JSON.stringify(components[e.data.id - 1]),
+        data: JSON.stringify(data),
       }, '*');
     }
   });

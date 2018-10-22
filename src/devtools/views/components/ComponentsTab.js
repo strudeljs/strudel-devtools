@@ -8,14 +8,13 @@ import ScrollPane from '../../components/ScrollPane';
 class ComponentsTab extends Component {
   render() {
     const { components, selectedComponentId } = this.props;
-    const selectedComponent = components.find(component => component.id === selectedComponentId);
 
     return (
       <div>
         <SplitPane>
           <ComponentList key="left" components={components} selectedComponentId={selectedComponentId}/>
           <ScrollPane key="right">
-            <ComponentInspector component={selectedComponent}/>
+            <ComponentInspector/>
           </ScrollPane>
         </SplitPane>
       </div>

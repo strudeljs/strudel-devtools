@@ -5,6 +5,7 @@ import { omit } from './utils';
 const initialState = {
   version: '',
   selectedComponentId: null,
+  selectedComponentData: null,
   selectedEvent: null,
   events: [],
   components: []
@@ -20,7 +21,9 @@ const app = (state = initialState, action) => {
         components: action.components
       });
     case TYPES.SELECT_COMPONENT:
-      return Object.assign({}, state, { selectedComponentId: action.id });
+      return Object.assign({}, state, { selectedComponentId: action.id })
+    case TYPES.SELECTED_COMPONENT_DATA:
+      return Object.assign({}, state, { selectedComponentData: JSON.parse(action.data) });
     case TYPES.EVENT:
       return Object.assign({}, state, {
         events: [...state.events, action.event]

@@ -150,20 +150,6 @@ input {
   cursor: default;
 }
 
-.inspector-content {
-  padding: 10px;
-}
-
-.inspector-item {
-  font-family: 'Roboto Mono', monospace;
-  margin: 0;
-  font-size: 14px;
-}
-
-.inspector-item > span:first-of-type {
-  color: var(--highlight-color);
-}
-
 .eventName, .by {
   font-family: 'Roboto Mono', monospace;
   font-size: 12px;
