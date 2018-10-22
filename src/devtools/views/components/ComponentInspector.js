@@ -4,12 +4,18 @@ import StateInspector from '../../components/StateInspector';
 
 class ComponentInspector extends Component {
   render() {
-    return this.props.selectedComponentData ?
+    const data = this.props.selectedComponentData;
+
+    return data ?
       <div>
         <h2 className="inspector-heading item">
-          <span>&lt;</span>{this.props.selectedComponentData.name}<span>&gt;</span>
+          <span>&lt;</span>{data.info.name}<span>&gt;</span>
         </h2>
-        <StateInspector data={this.props.selectedComponentData}/>
+        <StateInspector data={data.info}/>
+        <h3 className="inspector-heading">Instance properties</h3>
+        <StateInspector data={data.props}/>
+        <h3 className="inspector-heading">Data attributes</h3>
+        <StateInspector data={data.dataAttrs}/>
       </div>
       :
       <div>

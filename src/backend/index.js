@@ -2,7 +2,7 @@ import { init, TYPES } from '../core/actions';
 import { initEventsBackend } from './events';
 
 const hook = window.__STRUDEL_DEVTOOLS_GLOBAL_HOOK__;
-const components = [];
+const strudelNodes = [];
 
 export function initBackend () {
   if (hook.Strudel) {
@@ -13,16 +13,13 @@ export function initBackend () {
 
   window.addEventListener('message', (e) => {
     if (e.source === window && e.data.action === TYPES.SELECT_COMPONENT) {
-      const strudelProps = components[e.data.id - 1].strudelProps;
-      const data = {
-        name: strudelProps.name,
-        selector: strudelProps.selector,
-        data: strudelProps.$data,
-      };
+      const selectedInstance = strudelNodes[e.data.id - 1].__strudel__;
+      const removeProps = false;
+      const instanceDetails = getInstanceDetails(selectedInstance, removeProps);
 
       window.postMessage({
         action: TYPES.SELECTED_COMPONENT_DATA,
-        data: JSON.stringify(data),
+        data: JSON.stringify(adaptInstanceDetails(instanceDetails)),
       }, '*');
     }
   });
@@ -35,12 +32,12 @@ const walk = (node, fn) => {
       const stop = fn(child);
       if (!stop) {
         walk(child, fn);
-      } 
+      }
     }
   }
 }
 
-const getInstanceDetails = (instance) => {
+const getInstanceDetails = (instance, deleteProps = true) => {
   let properties = {
     name: instance.constructor.name,
     selector: instance.__proto__._selector
@@ -52,10 +49,35 @@ const getInstanceDetails = (instance) => {
     }
   });
 
+  if (deleteProps) {
+    delete properties['$element'];
+    delete properties['$data'];
+  }
+
   return properties;
 }
 
+const adaptInstanceDetails = component => {
+  const adapted = {
+    info: {
+      name: component.name,
+      selector: component.selector,
+    },
+    props: {},
+    dataAttrs: component.$data,
+  };
+
+  Object.keys(component).forEach(key => {
+  if (key !== 'name' && key !== 'selector' && key !== '$data' && key !== '__STRUDEL_DEVTOOLS_UID__') {
+      adapted.props[key] = component[key];
+    }
+  });
+
+  return adapted;
+};
+
 const scan = () => {
+  var components = [];
   let uid = 0;
 
   walk(document, function (node) {
@@ -68,6 +90,7 @@ const scan = () => {
         id: id,
         strudelProps: getInstanceDetails(node.__strudel__)
       });
+      strudelNodes.push(node);
     }
 
     return !node.childNodes;
@@ -78,18 +101,11 @@ const scan = () => {
   window.postMessage({
     action: TYPES.INIT,
     version: hook.Strudel.version,
-    components: components.map(c => ({
-      id: c.id,
-      strudelProps: {
-        name: c.strudelProps.name,
-        selector: c.strudelProps.selector,
-      }
-    }))
+    components,
   }, '*');
 }
 
 const connect = () => {
-  console.log('[strudel-devtools] Ready. Detected Strudel v' + hook.Strudel.version)
   document.addEventListener('strudel:loaded', scan);
   scan();
 }
