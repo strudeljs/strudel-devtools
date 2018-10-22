@@ -5,13 +5,34 @@ import ScrollPane from '../../components/ScrollPane';
 import { aliasCreators } from '../../../core/aliases';
 
 class ComponentList extends Component {
+  constructor() {
+    super();
+    this.state = {
+      input: '',
+    }
+  }
+
+  onInputChange(e) {
+    this.setState({
+      input: e.target.value,
+    })
+  }
+
   render() {
+    const components = this.props.components.filter(component => 
+      component.strudelProps.name.toLowerCase().includes(this.state.input.toLowerCase()))
+
     return (
       <div>
-        <input className="input" placeholder="Filter components" type="text" />
+        <input
+          className="input" 
+          value={this.state.input} 
+          placeholder="Filter components" 
+          type="text" 
+          onChange={this.onInputChange.bind(this)}/>
         <ScrollPane>
           <ul className="list">
-            {this.props.components.map((component, i) => {
+            {components.map((component, i) => {
               return (
                 <ComponentItem
                   key={i}
