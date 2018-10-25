@@ -79,8 +79,6 @@ const adaptInstanceDetails = instance => {
     }
   });
 
-  console.log(adapted);
-
   return adapted;
 };
 

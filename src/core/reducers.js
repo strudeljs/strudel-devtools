@@ -24,7 +24,6 @@ const app = (state = initialState, action) => {
     case TYPES.SELECT_COMPONENT:
       return Object.assign({}, state, { selectedComponentId: action.id })
     case TYPES.SELECTED_COMPONENT_DATA:
-       console.log(flattedParse(action.data))
       return Object.assign({}, state, { selectedComponentData: flattedParse(action.data) });
     case TYPES.EVENT:
       return Object.assign({}, state, {
