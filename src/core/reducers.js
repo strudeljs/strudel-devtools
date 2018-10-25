@@ -1,3 +1,4 @@
+import { parse as flattedParse } from 'flatted/esm';
 import { TYPES } from './actions';
 import { parse } from './transfer';
 import { omit } from './utils';
@@ -23,7 +24,8 @@ const app = (state = initialState, action) => {
     case TYPES.SELECT_COMPONENT:
       return Object.assign({}, state, { selectedComponentId: action.id })
     case TYPES.SELECTED_COMPONENT_DATA:
-      return Object.assign({}, state, { selectedComponentData: JSON.parse(action.data) });
+       console.log(flattedParse(action.data))
+      return Object.assign({}, state, { selectedComponentData: flattedParse(action.data) });
     case TYPES.EVENT:
       return Object.assign({}, state, {
         events: [...state.events, action.event]

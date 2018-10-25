@@ -56,6 +56,7 @@ input {
   box-sizing: border-box;
   margin-bottom: 2px;
   cursor: pointer;
+  position: relative;
 }
 
 .item.event {
@@ -278,4 +279,29 @@ h3.inspector-heading {
 .event-inspector .inspector {
   padding: 0 30px;
   margin: 0;
+}
+
+.crosshair {
+  display: none;
+  height: 15px;
+  width: 15px;
+  border: 0;
+  padding: 0;
+  background: url(assets/crosshair.svg) center / 15px no-repeat;
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.item:hover .crosshair {
+  display: block;
+}
+
+.crosshair:focus {
+  outline: 0;
+}
+
+.crosshair:hover {
+  cursor: pointer;
 }

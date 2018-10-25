@@ -12,6 +12,7 @@ class ComponentItem extends Component {
     return (
       <p className={className} onClick={() => this.props.clickHandler()}>
         <span>&lt;</span>{this.props.name}<span>&gt;</span>
+        <button className="crosshair" aria-label="Find instance on the page"></button>
       </p>
     )
   }

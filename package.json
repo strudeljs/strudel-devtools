@@ -26,6 +26,7 @@
     "webpack-cli": "^3.1.0"
   },
   "dependencies": {
+    "flatted": "^2.0.0",
     "fuzzysearch": "^1.0.3",
     "inquirer": "^6.2.0",
     "react": "^16.2.0",

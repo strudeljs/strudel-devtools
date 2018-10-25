@@ -1,5 +1,7 @@
 import { init, TYPES } from '../core/actions';
 import { initEventsBackend } from './events';
+import { stringify } from 'flatted/esm';
+
 
 const hook = window.__STRUDEL_DEVTOOLS_GLOBAL_HOOK__;
 const strudelNodes = [];
@@ -14,12 +16,11 @@ export function initBackend () {
   window.addEventListener('message', (e) => {
     if (e.source === window && e.data.action === TYPES.SELECT_COMPONENT) {
       const selectedInstance = strudelNodes[e.data.id - 1].__strudel__;
-      const removeProps = false;
-      const instanceDetails = getInstanceDetails(selectedInstance, removeProps);
+      const instanceDetails = adaptInstanceDetails(selectedInstance);
 
       window.postMessage({
         action: TYPES.SELECTED_COMPONENT_DATA,
-        data: JSON.stringify(adaptInstanceDetails(instanceDetails)),
+        data: stringify(instanceDetails),
       }, '*');
     }
   });
@@ -37,7 +38,7 @@ const walk = (node, fn) => {
   }
 }
 
-const getInstanceDetails = (instance, deleteProps = true) => {
+const getInstanceDetails = (instance) => {
   let properties = {
     name: instance.constructor.name,
     selector: instance.__proto__._selector
@@ -49,29 +50,36 @@ const getInstanceDetails = (instance, deleteProps = true) => {
     }
   });
 
-  if (deleteProps) {
-    delete properties['$element'];
-    delete properties['$data'];
-  }
+  delete properties['$element'];
+  delete properties['$data'];
 
   return properties;
 }
 
-const adaptInstanceDetails = component => {
+const adaptInstanceDetails = instance => {
+  const reservedKeys = [
+    'name', 'selector', '$data', '$element', '__STRUDEL_DEVTOOLS_UID__'
+  ];
   const adapted = {
     info: {
-      name: component.name,
-      selector: component.selector,
+      name: instance.constructor.name,
+      selector: instance.__proto__._selector,
     },
-    props: {},
-    dataAttrs: component.$data,
+    dataAttrs: instance.$data,
+    properties: {},
+    elements: {},
   };
 
-  Object.keys(component).forEach(key => {
-  if (key !== 'name' && key !== 'selector' && key !== '$data' && key !== '__STRUDEL_DEVTOOLS_UID__') {
-      adapted.props[key] = component[key];
+  Object.keys(instance).forEach((property) => {
+    if (instance[property].constructor && instance[property].constructor.name === 'Element' &&
+        property !== '$element') {
+      adapted.elements[property] = instance[property];
+    } else if (!reservedKeys.includes(property)) {
+      adapted.properties[property] = instance[property];
     }
   });
+
+  console.log(adapted);
 
   return adapted;
 };
