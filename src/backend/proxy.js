@@ -42,6 +42,12 @@ chrome.runtime.onMessage.addListener(
             id: request.id,
           }, '*');
           return sendResponse({});
+        case ALIAS_TYPES.SCROLL_INTO_VIEW:
+          window.postMessage({
+            action: TYPES.SCROLL_INTO_VIEW,
+            id: request.id,
+          }, '*');
+          return sendResponse({});
         default:
           return;
       }

@@ -38,7 +38,8 @@ class ComponentList extends Component {
                   key={i}
                   name={component.strudelProps.name}
                   selected={component.id === this.props.selectedComponentId}
-                  clickHandler={() => this.props.selectComponent(component.id)}></ComponentItem>
+                  itemClickHandler={() => this.props.selectComponent(component.id)}
+                  crosshairClickHandler={() => this.props.scrollIntoView(component.id)}></ComponentItem>
               )
             })}
           </ul>
@@ -52,7 +53,10 @@ class ComponentList extends Component {
 const mapDispatchToProps = (dispatch) => ({
   selectComponent: (id) => {
     dispatch(aliasCreators.selectComponent({ id }));
-  }
+  },
+  scrollIntoView: (id) => {
+    dispatch(aliasCreators.scrollIntoView({ id }));
+  },
 });
 
 export default connect(null, mapDispatchToProps)(ComponentList);

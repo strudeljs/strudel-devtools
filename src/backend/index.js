@@ -5,6 +5,7 @@ import { stringify } from 'flatted/esm';
 
 const hook = window.__STRUDEL_DEVTOOLS_GLOBAL_HOOK__;
 const strudelNodes = [];
+let uid = 0;
 
 export function initBackend () {
   if (hook.Strudel) {
@@ -14,14 +15,23 @@ export function initBackend () {
   }
 
   window.addEventListener('message', (e) => {
-    if (e.source === window && e.data.action === TYPES.SELECT_COMPONENT) {
-      const selectedInstance = strudelNodes[e.data.id - 1].__strudel__;
-      const instanceDetails = adaptInstanceDetails(selectedInstance);
+    if (e.source === window && e.data.action) {
+      switch (e.data.action) {
+        case TYPES.SELECT_COMPONENT:
+          const selectedInstance = strudelNodes[e.data.id - 1].__strudel__;
+          const instanceDetails = adaptInstanceDetails(selectedInstance);
 
-      window.postMessage({
-        action: TYPES.SELECTED_COMPONENT_DATA,
-        data: stringify(instanceDetails),
-      }, '*');
+          window.postMessage({
+            action: TYPES.SELECTED_COMPONENT_DATA,
+            data: stringify(instanceDetails),
+          }, '*');
+          break;
+        case TYPES.SCROLL_INTO_VIEW:
+          strudelNodes[e.data.id - 1].scrollIntoView();
+          break;
+        default:
+          return;
+      }
     }
   });
 }
@@ -84,7 +94,6 @@ const adaptInstanceDetails = instance => {
 
 const scan = () => {
   var components = [];
-  let uid = 0;
 
   walk(document, function (node) {
     if (node.__strudel__) {
