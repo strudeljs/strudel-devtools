@@ -1,6 +1,6 @@
 {
   "name": "strudel-devtools",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Devtools for Strudel.js",
   "main": "index.js",
   "scripts": {
