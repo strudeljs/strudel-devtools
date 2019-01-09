@@ -1,14 +1,18 @@
 import { alias, wrapStore } from 'react-chrome-redux';
 import { applyMiddleware, createStore } from 'redux'
+import createSagaMiddleware from 'redux-saga';
+import rootSaga from '../core/sagas';
 import { portName } from '../config';
-import { aliases } from '../core/aliases';
+import { setActiveTabId } from '../core/actions';
 import app from '../core/reducers';
 
+const sagaMiddleware = createSagaMiddleware()
+
 const store = createStore(app,
-  applyMiddleware(
-    alias(aliases)
-  )
+  applyMiddleware(sagaMiddleware)
 );
+
+sagaMiddleware.run(rootSaga);
 
 wrapStore(store, { portName });
 
@@ -24,3 +28,7 @@ chrome.runtime.onMessage.addListener((req, sender) => {
     });
   }
 })
+
+chrome.tabs.onActivated.addListener(function(activeInfo) {
+  store.dispatch(setActiveTabId({ id: activeInfo.tabId }));
+});

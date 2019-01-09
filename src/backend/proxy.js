@@ -1,6 +1,6 @@
 import { Store } from 'react-chrome-redux';
 import { portName } from '../config';
-import { ALIAS_TYPES } from '../core/aliases';
+import { ALIAS_TYPES } from '../core/actions';
 import { TYPES, init, eventTrigger, selectedComponentData } from '../core/actions';
 
 const store = new Store({

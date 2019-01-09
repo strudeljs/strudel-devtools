@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ComponentItem from './ComponentItem';
 import ScrollPane from '../../components/ScrollPane';
-import { aliasCreators } from '../../../core/aliases';
+import { selectComponent, scrollIntoView } from '../../../core/actions';
 
 class ComponentList extends Component {
   constructor() {
@@ -52,10 +52,10 @@ class ComponentList extends Component {
 
 const mapDispatchToProps = (dispatch) => ({
   selectComponent: (id) => {
-    dispatch(aliasCreators.selectComponent({ id }));
+    dispatch(selectComponent(id));
   },
   scrollIntoView: (id) => {
-    dispatch(aliasCreators.scrollIntoView({ id }));
+    dispatch(scrollIntoView(id));
   },
 });
 

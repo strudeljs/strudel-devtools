@@ -4,6 +4,7 @@ import { parse } from './transfer';
 import { omit } from './utils';
 
 const initialState = {
+  activeTabId: null,
   version: '',
   selectedComponentId: null,
   selectedComponentData: null,
@@ -14,6 +15,8 @@ const initialState = {
 
 const app = (state = initialState, action) => {
   switch (action.type) {
+    case TYPES.SET_ACTIVE_TAB_ID:
+      return Object.assign({}, state, { activeTabId: action.id });
     case TYPES.FLUSH:
       return Object.assign({}, state, initialState);
     case TYPES.INIT:
