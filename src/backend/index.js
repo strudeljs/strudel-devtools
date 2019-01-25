@@ -1,10 +1,10 @@
 import { init, TYPES } from '../core/actions';
 import { initEventsBackend } from './events';
 import { stringify } from 'flatted/esm';
+import { INSPECT_MAX_BYTES } from 'buffer';
 
 
 const hook = window.__STRUDEL_DEVTOOLS_GLOBAL_HOOK__;
-const strudelNodes = [];
 let uid = 0;
 
 export function initBackend () {
@@ -18,7 +18,7 @@ export function initBackend () {
     if (e.source === window && e.data.action) {
       switch (e.data.action) {
         case TYPES.SELECT_COMPONENT:
-          const selectedInstance = strudelNodes[e.data.id - 1].__strudel__;
+          const selectedInstance =  window.__STRUDEL_DEVTOOLS_INSTANCE_MAP__.get(e.data.id).__strudel__;
           const instanceDetails = adaptInstanceDetails(selectedInstance);
 
           window.postMessage({
@@ -27,7 +27,7 @@ export function initBackend () {
           }, '*');
           break;
         case TYPES.SCROLL_INTO_VIEW:
-          strudelNodes[e.data.id - 1].scrollIntoView();
+          window.__STRUDEL_DEVTOOLS_INSTANCE_MAP__.get(e.data.id).scrollIntoView();
           break;
         default:
           return;
@@ -100,12 +100,12 @@ const scan = () => {
       const id = ++uid;
       const instance = node.__strudel__;
       instance.__STRUDEL_DEVTOOLS_UID__ = id;
+      window.__STRUDEL_DEVTOOLS_INSTANCE_MAP__.set(id, node);
 
       components.push({
         id: id,
         strudelProps: getInstanceDetails(node.__strudel__)
       });
-      strudelNodes.push(node);
     }
 
     return !node.childNodes;
@@ -121,6 +121,7 @@ const scan = () => {
 }
 
 const connect = () => {
+  window.__STRUDEL_DEVTOOLS_INSTANCE_MAP__ = new Map();
   document.addEventListener('strudel:loaded', scan);
   scan();
 }

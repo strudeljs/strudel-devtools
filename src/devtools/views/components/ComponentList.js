@@ -39,7 +39,8 @@ class ComponentList extends Component {
                   name={component.strudelProps.name}
                   selected={component.id === this.props.selectedComponentId}
                   itemClickHandler={() => this.props.selectComponent(component.id)}
-                  crosshairClickHandler={() => this.props.scrollIntoView(component.id)}></ComponentItem>
+                  eyeClickHandler={() => this.props.scrollIntoView(component.id)}
+                  crosshairClickHandler={() => this.props.inspect(component.id)}></ComponentItem>
               )
             })}
           </ul>
@@ -53,6 +54,10 @@ class ComponentList extends Component {
 const mapDispatchToProps = (dispatch) => ({
   selectComponent: (id) => {
     dispatch(selectComponent(id));
+  },
+  inspect: (id) => {
+    const ev = `inspect(window.__STRUDEL_DEVTOOLS_INSTANCE_MAP__.get(${id}))`;
+    chrome.devtools.inspectedWindow.eval(ev);
   },
   scrollIntoView: (id) => {
     dispatch(scrollIntoView(id));

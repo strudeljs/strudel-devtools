@@ -281,27 +281,39 @@ h3.inspector-heading {
   margin: 0;
 }
 
-.crosshair {
+.crosshair,
+.eye {
   display: none;
   height: 15px;
   width: 15px;
   border: 0;
   padding: 0;
-  background: url(assets/crosshair.svg) center / 15px no-repeat;
   position: absolute;
-  right: 5px;
   top: 50%;
   transform: translateY(-50%);
 }
 
-.item:hover .crosshair {
+.crosshair {
+  background: url(assets/crosshair.svg) center / 15px no-repeat;
+  right: 5px;
+}
+
+.eye {
+  background: url(assets/eye.svg) center / 15px no-repeat;
+  right: 30px;
+}
+
+.item:hover .crosshair,
+.item:hover .eye {
   display: block;
 }
 
-.crosshair:focus {
+.crosshair:focus,
+.eye:focus {
   outline: 0;
 }
 
-.crosshair:hover {
+.crosshair:hover,
+.eye:hover {
   cursor: pointer;
 }
