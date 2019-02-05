@@ -56,6 +56,7 @@ input {
   box-sizing: border-box;
   margin-bottom: 2px;
   cursor: pointer;
+  position: relative;
 }
 
 .item.event {
@@ -150,18 +151,11 @@ input {
   cursor: default;
 }
 
-.inspector-content {
-  padding: 10px;
-}
-
-.inspector-item {
-  font-family: 'Roboto Mono', monospace;
-  margin: 0;
-  font-size: 14px;
-}
-
-.inspector-item > span:first-of-type {
-  color: var(--highlight-color);
+h3.inspector-heading {
+  border: none;
+  margin: 15px 10px 10px;
+  padding: 0;
+  font-size: 15px;
 }
 
 .eventName, .by {
@@ -285,4 +279,41 @@ input {
 .event-inspector .inspector {
   padding: 0 30px;
   margin: 0;
+}
+
+.crosshair,
+.eye {
+  display: none;
+  height: 15px;
+  width: 15px;
+  border: 0;
+  padding: 0;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.crosshair {
+  background: url(assets/crosshair.svg) center / 15px no-repeat;
+  right: 5px;
+}
+
+.eye {
+  background: url(assets/eye.svg) center / 15px no-repeat;
+  right: 30px;
+}
+
+.item:hover .crosshair,
+.item:hover .eye {
+  display: block;
+}
+
+.crosshair:focus,
+.eye:focus {
+  outline: 0;
+}
+
+.crosshair:hover,
+.eye:hover {
+  cursor: pointer;
 }

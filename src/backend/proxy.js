@@ -1,7 +1,7 @@
 import { Store } from 'react-chrome-redux';
 import { portName } from '../config';
-import { ALIAS_TYPES } from '../core/aliases';
-import { TYPES, init, eventTrigger } from '../core/actions';
+import { ALIAS_TYPES } from '../core/actions';
+import { TYPES, init, eventTrigger, selectedComponentData } from '../core/actions';
 
 const store = new Store({
   portName
@@ -21,6 +21,11 @@ window.addEventListener('message', (e) => {
           event: e.data.event
         }));
         break;
+      case TYPES.SELECTED_COMPONENT_DATA:
+        store.dispatch(selectedComponentData({
+          data: e.data.data
+        }));
+        break;
       default:
         return;
     }
@@ -32,7 +37,16 @@ chrome.runtime.onMessage.addListener(
     if (request.type) {
       switch (request.type) {
         case ALIAS_TYPES.SELECT_COMPONENT:
-          // TBD: collect more data on specific component instance
+          window.postMessage({
+            action: TYPES.SELECT_COMPONENT,
+            id: request.id,
+          }, '*');
+          return sendResponse({});
+        case ALIAS_TYPES.SCROLL_INTO_VIEW:
+          window.postMessage({
+            action: TYPES.SCROLL_INTO_VIEW,
+            id: request.id,
+          }, '*');
           return sendResponse({});
         default:
           return;
