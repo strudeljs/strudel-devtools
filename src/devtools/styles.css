@@ -338,13 +338,29 @@ h3.inspector-heading {
 }
 
 .crosshair {
-  background: url(assets/crosshair.svg) center / 15px no-repeat;
+  background: url("assets/crosshair.svg") center / 15px no-repeat;
   right: 5px;
 }
 
 .eye {
-  background: url(assets/eye.svg) center / 15px no-repeat;
+  background: url("assets/eye.svg") center / 15px no-repeat;
   right: 30px;
+}
+
+.dark .crosshair {
+  background-image: url("assets/crosshair-dark-theme.svg");
+}
+
+.dark .eye {
+  background-image: url("assets/eye-dark-theme.svg");
+}
+
+.dark .selected .crosshair {
+  background-image: url("assets/crosshair.svg");
+}
+
+.dark .selected .eye {
+  background-image: url("assets/eye.svg");
 }
 
 .value.HTML-element:hover .crosshair {
