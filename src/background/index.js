@@ -3,7 +3,7 @@ import { applyMiddleware, createStore } from 'redux'
 import createSagaMiddleware from 'redux-saga';
 import rootSaga from '../core/sagas';
 import { portName } from '../config';
-import { setActiveTabId } from '../core/actions';
+import { setActiveTab } from '../core/actions';
 import app from '../core/reducers';
 
 const sagaMiddleware = createSagaMiddleware()
@@ -30,5 +30,5 @@ chrome.runtime.onMessage.addListener((req, sender) => {
 })
 
 chrome.tabs.onActivated.addListener(function(activeInfo) {
-  store.dispatch(setActiveTabId({ id: activeInfo.tabId }));
+  store.dispatch(setActiveTab({ id: activeInfo.tabId }));
 });

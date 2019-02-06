@@ -8,7 +8,7 @@ export const TYPES = {
   FLUSH_EVENT: 'FLUSH_EVENT',
   SELECT_EVENT: 'SELECT_EVENT',
   SCROLL_INTO_VIEW: 'SCROLL_INTO_VIEW',
-  SET_ACTIVE_TAB_ID: 'SET_ACTIVE_TAB_ID',
+  SET_ACTIVE_TAB: 'SET_ACTIVE_TAB',
 };
 
 export const ALIAS_TYPES = Object.keys(TYPES).reduce((aliases, action) => ({
@@ -30,4 +30,4 @@ export const flushEvent = () => ({ type: TYPES.FLUSH_EVENT });
 
 export const selectEvent = (event) => ({ type: TYPES.SELECT_EVENT, event });
 
-export const setActiveTabId = ({ id }) => ({ type: TYPES.SET_ACTIVE_TAB_ID, id });
+export const setActiveTab = ({ id }) => ({ type: TYPES.SET_ACTIVE_TAB, id });
