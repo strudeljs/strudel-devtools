@@ -14,8 +14,7 @@
       "48": "icons/icon48-gray.png",
       "128": "icons/icon128-gray.png"
     },
-    "default_title": "Strudel Devtools",
-    "default_popup": "popup/popup.html"
+    "default_title": "Strudel Devtools"
   },
   "content_scripts": [
     {
