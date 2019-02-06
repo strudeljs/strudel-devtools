@@ -1,17 +1,15 @@
 import { init, TYPES } from '../core/actions';
 import { initEventsBackend } from './events';
 import { stringify } from 'flatted/esm';
-import { INSPECT_MAX_BYTES } from 'buffer';
-
 
 const hook = window.__STRUDEL_DEVTOOLS_GLOBAL_HOOK__;
 let uid = 0;
 
 export function initBackend () {
   if (hook.Strudel) {
-    connect()
+    connect();
   } else {
-    hook.once('init', connect)
+    hook.once('init', connect);
   }
 
   window.addEventListener('message', (e) => {
