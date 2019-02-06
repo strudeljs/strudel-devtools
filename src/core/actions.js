@@ -8,6 +8,8 @@ export const TYPES = {
   FLUSH_EVENT: 'FLUSH_EVENT',
   SELECT_EVENT: 'SELECT_EVENT',
   SCROLL_INTO_VIEW: 'SCROLL_INTO_VIEW',
+  HIGHLIGHT_COMPONENT: 'HIGHLIGHT_COMPONENT',
+  REMOVE_HIGHLIGHT: 'REMOVE_HIGHLIGHT',
   SET_ACTIVE_TAB_ID: 'SET_ACTIVE_TAB_ID',
 };
 
@@ -21,6 +23,10 @@ export const init = ({ version, components }) => ({ type: TYPES.INIT, version, c
 export const selectComponent = (id) => ({ type: TYPES.SELECT_COMPONENT, id });
 
 export const scrollIntoView = (id) => ({ type: TYPES.SCROLL_INTO_VIEW, id });
+
+export const highlightComponent = (id) => ({ type: TYPES.HIGHLIGHT_COMPONENT, id });
+
+export const removeHighlight = () => ({ type: TYPES.REMOVE_HIGHLIGHT });
 
 export const selectedComponentData = ({ data }) => ({ type: TYPES.SELECTED_COMPONENT_DATA, data });
 

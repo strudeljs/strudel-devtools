@@ -19,7 +19,8 @@ module.exports = {
       'backend': ['./src/backend/index'],
       'devtools-background': ['./src/devtools-background/index'],
       'devtools': ['./src/devtools/index'],
-      'background': ['./src/background/index']
+      'background': ['./src/background/index'],
+      'highlighter': ['./src/backend/highlighter.css']
     },
     output: {
       path: root('build'),
