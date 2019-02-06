@@ -42,6 +42,7 @@ class ComponentList extends Component {
                 <ComponentItem
                   key={i}
                   name={component.strudelProps.name}
+                  id={component.id}
                   selected={component.id === this.props.selectedComponentId}
                   itemClickHandler={() => this.props.selectComponent(component.id)}
                   mouseEnterHandler={() => this.props.highlightComponent(component.id)}

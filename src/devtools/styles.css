@@ -272,6 +272,17 @@ h3.inspector-heading {
   color: var(--object-value-string-span-color) !important;
 }
 
+.value.HTML-element {
+  position: relative;
+  color: #03c !important;
+  display: inline-block;
+  width: 150px;
+}
+
+.value.HTML-element .crosshair {
+  right: 20px;
+}
+
 .inspector {
   margin: 10px;
   line-height: 1.5;
@@ -334,6 +345,10 @@ h3.inspector-heading {
 .eye {
   background: url(assets/eye.svg) center / 15px no-repeat;
   right: 30px;
+}
+
+.value.HTML-element:hover .crosshair {
+  display: block;
 }
 
 .item:hover .crosshair,
