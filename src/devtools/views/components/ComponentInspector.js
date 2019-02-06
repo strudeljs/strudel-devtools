@@ -14,7 +14,7 @@ class ComponentInspector extends Component {
         </h2>
         <StateInspector data={data.info}/>
         <h3 className="inspector-heading">Elements</h3>
-        <StateInspector data={data.elements}/>
+        <StateInspector data={data.elements} isParent={true}/>
         <h3 className="inspector-heading">Properties</h3>
         <StateInspector data={data.properties}/>
         <h3 className="inspector-heading">Data attributes</h3>

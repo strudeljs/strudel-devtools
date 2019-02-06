@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Button from '../../components/Button';
 
 class ComponentItem extends Component {
   constructor(props) {
@@ -22,14 +23,8 @@ class ComponentItem extends Component {
     return (
       <p className={className} onClick={this.props.itemClickHandler.bind(this)}>
         <span>&lt;</span>{this.props.name}<span>&gt;</span>
-        <button
-          className="eye" 
-          aria-label="Scroll element into view"
-          onClick={this.eyeClickHandler.bind(this)}></button>
-        <button
-          className="crosshair" 
-          aria-label="Inspect element"
-          onClick={this.crosshairClickHandler.bind(this)}></button>
+          <Button class="eye" ariaLabel="Scroll element into view" clickHandler={this.eyeClickHandler.bind(this)} />
+          <Button class="crosshair" ariaLabel="Inspect element" clickHandler={this.crosshairClickHandler.bind(this)} />
       </p>
     )
   }
