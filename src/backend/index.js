@@ -1,5 +1,6 @@
 import { init, TYPES } from '../core/actions';
 import { initEventsBackend } from './events';
+import { Highlighter } from './highlighter';
 import { stringify } from 'flatted/esm';
 
 const hook = window.__STRUDEL_DEVTOOLS_GLOBAL_HOOK__;
@@ -26,6 +27,13 @@ export function initBackend () {
           break;
         case TYPES.SCROLL_INTO_VIEW:
           window.__STRUDEL_DEVTOOLS_INSTANCE_MAP__.get(e.data.id).scrollIntoView();
+          break;
+        case TYPES.HIGHLIGHT_COMPONENT:
+          const component = window.__STRUDEL_DEVTOOLS_INSTANCE_MAP__.get(e.data.id);
+          Highlighter.attach(component);
+          break;
+        case TYPES.REMOVE_HIGHLIGHT:
+          Highlighter.detach();
           break;
         default:
           return;

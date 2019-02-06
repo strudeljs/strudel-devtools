@@ -43,6 +43,14 @@
         "build/proxy.js"
       ],
       "run_at": "document_start"
+    },
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "css": [
+        "build/highlighter.css"
+      ]
     }
   ],
   "background": {

@@ -48,6 +48,17 @@ chrome.runtime.onMessage.addListener(
             id: request.id,
           }, '*');
           return sendResponse({});
+        case ALIAS_TYPES.HIGHLIGHT_COMPONENT:
+          window.postMessage({
+            action: TYPES.HIGHLIGHT_COMPONENT,
+            id: request.id,
+          });
+          return sendResponse({});
+        case ALIAS_TYPES.REMOVE_HIGHLIGHT:
+          window.postMessage({
+            action: TYPES.REMOVE_HIGHLIGHT,
+          });
+          return sendResponse({});
         default:
           return;
       }

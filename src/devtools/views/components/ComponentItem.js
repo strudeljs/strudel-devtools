@@ -20,7 +20,11 @@ class ComponentItem extends Component {
     const className = `item ${this.props.selected ? 'selected' : ''}`;
 
     return (
-      <p className={className} onClick={this.props.itemClickHandler.bind(this)}>
+      <p
+        className={className}
+        onClick={this.props.itemClickHandler.bind(this)}
+        onMouseEnter={this.props.mouseEnterHandler.bind(this)}
+        onMouseLeave={this.props.mouseLeaveHandler.bind(this)}>
         <span>&lt;</span>{this.props.name}<span>&gt;</span>
         <button
           className="eye" 
