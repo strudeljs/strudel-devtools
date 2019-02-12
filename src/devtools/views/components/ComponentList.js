@@ -2,7 +2,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ComponentItem from './ComponentItem';
 import ScrollPane from '../../components/ScrollPane';
-import { selectComponent, scrollIntoView } from '../../../core/actions';
+import {
+  selectComponent,
+  scrollIntoView,
+  highlightComponent,
+  removeHighlight,
+} from '../../../core/actions';
 
 class ComponentList extends Component {
   constructor() {
@@ -37,8 +42,11 @@ class ComponentList extends Component {
                 <ComponentItem
                   key={i}
                   name={component.strudelProps.name}
+                  id={component.id}
                   selected={component.id === this.props.selectedComponentId}
                   itemClickHandler={() => this.props.selectComponent(component.id)}
+                  mouseEnterHandler={() => this.props.highlightComponent(component.id)}
+                  mouseLeaveHandler={() => this.props.removeHighlight()}
                   eyeClickHandler={() => this.props.scrollIntoView(component.id)}
                   crosshairClickHandler={() => this.props.inspect(component.id)}></ComponentItem>
               )
@@ -62,6 +70,12 @@ const mapDispatchToProps = (dispatch) => ({
   scrollIntoView: (id) => {
     dispatch(scrollIntoView(id));
   },
+  highlightComponent: (id) => {
+    dispatch(highlightComponent(id));
+  },
+  removeHighlight: () => {
+    dispatch(removeHighlight());
+  }
 });
 
 export default connect(null, mapDispatchToProps)(ComponentList);

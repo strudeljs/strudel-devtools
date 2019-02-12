@@ -14,8 +14,7 @@
       "48": "icons/icon48-gray.png",
       "128": "icons/icon128-gray.png"
     },
-    "default_title": "Strudel Devtools",
-    "default_popup": "popup/popup.html"
+    "default_title": "Strudel Devtools"
   },
   "content_scripts": [
     {
@@ -44,6 +43,14 @@
         "build/proxy.js"
       ],
       "run_at": "document_start"
+    },
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "css": [
+        "build/highlighter.css"
+      ]
     }
   ],
   "background": {

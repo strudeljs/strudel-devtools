@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import Button from './Button';
 
 const isPlainObject = (obj) => {
   return Object.prototype.toString.call(obj) === '[object Object]'
@@ -14,6 +16,8 @@ const valueType = (value) => {
     type === 'number'
   ) {
     return 'literal';
+  } else if (value === 'HTMLElement') {
+    return 'HTML-element';
   } else if (type === 'string') {
     return 'string';
   } else if (Array.isArray(value)) {
@@ -40,8 +44,17 @@ class Property extends Component {
     e.stopPropagation();
   }
 
+  HTMLElemInspect(e) {
+    const { parent, prop, selectedComponentId } = this.props;
+    const pathToParent = `${parent}._nodes`
+    const ev = `inspect(window.__STRUDEL_DEVTOOLS_INSTANCE_MAP__.get(${selectedComponentId}).__strudel__.${pathToParent}[${prop}])`;
+    chrome.devtools.inspectedWindow.eval(ev);
+
+    e.stopPropagation();
+  }
+
   render() {
-    const { prop, value } = this.props;
+    const { prop, value, parent, selectedComponentId } = this.props;
     const type = valueType(value);
     const valueClassName = `value ${type}`;
     const childrenClassName = `children${this.state.collapsed ? ' is-hidden' : ''}`;
@@ -57,7 +70,9 @@ class Property extends Component {
             <span className={valueClassName}>Array[{value.length}]</span>
             <div className={childrenClassName}>
               {value.map((val, i) => {
-                return (<Property key={i} prop={i} value={val}/>)
+                return (
+                  <Property key={i} prop={i} parent={parent ? parent : ''} selectedComponentId={selectedComponentId} value={prop === '_nodes' ? 'HTMLElement' : val}
+                />)
               })}
             </div>
           </div>
@@ -72,9 +87,23 @@ class Property extends Component {
             <span className={valueClassName}>Object</span>
             <div className={childrenClassName}>
             {Object.keys(value).map((k, i) => {
-              return (<Property key={prop} prop={k} value={value[k]}/>)
+              return (
+                <Property key={prop} prop={k} parent={parent ? parent : ''}  selectedComponentId={selectedComponentId} value={value[k]}
+              />)
             })}
             </div>
+          </div>
+        );
+        break;
+      case 'HTML-element':
+        return (
+          <div className="property" key={prop}>
+            <span className="key">{prop}</span>
+            <span className="colon">:</span>
+            <span className={valueClassName}>
+              HTMLElement 
+              <Button class="crosshair" ariaLabel="Inspect element" clickHandler={this.HTMLElemInspect.bind(this)} />
+            </span>
           </div>
         );
         break;
@@ -94,4 +123,10 @@ class Property extends Component {
   }
 }
 
-export default Property;
+const mapStateToProps = (state) => {
+  return {
+    selectedComponentId: state.selectedComponentId,
+  };
+};
+
+export default connect(mapStateToProps)(Property);
