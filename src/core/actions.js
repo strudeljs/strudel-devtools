@@ -1,6 +1,9 @@
 export const TYPES = {
   FLUSH: 'FLUSH',
   INIT: 'INIT',
+  PAGE_LOADED: 'PAGE_LOADED',
+  AFTER_PAGE_LOADED: 'AFTER_PAGE_LOADED',
+  BEFORE_WINDOW_UNLOAD: 'BEFORE_WINDOW_UNLOAD',
   SELECT_COMPONENT: 'SELECT_COMPONENT',
   SELECTED_COMPONENT_DATA: 'SELECTED_COMPONENT_DATA',
   SELECTED: 'SELECTED',
@@ -37,3 +40,9 @@ export const flushEvent = () => ({ type: TYPES.FLUSH_EVENT });
 export const selectEvent = (event) => ({ type: TYPES.SELECT_EVENT, event });
 
 export const setActiveTab = ({ id }) => ({ type: TYPES.SET_ACTIVE_TAB, id });
+
+export const beforeWindowUnload = () => ({ type: TYPES.BEFORE_WINDOW_UNLOAD });
+
+export const pageLoaded = () => ({ type: TYPES.PAGE_LOADED });
+
+export const afterPageLoaded = () => ({ type: TYPES.AFTER_PAGE_LOADED });
