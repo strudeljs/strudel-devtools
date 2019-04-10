@@ -1,11 +1,15 @@
 import { Store } from 'react-chrome-redux';
 import { portName } from '../config';
-import { ALIAS_TYPES } from '../core/actions';
+import { ALIAS_TYPES, beforeWindowUnload } from '../core/actions';
 import { TYPES, init, eventTrigger, selectedComponentData } from '../core/actions';
+import { pageLoaded } from '../core/actions';
+import { installScript } from '../util/helpers';
 
 const store = new Store({
   portName
 });
+
+window.addEventListener('DOMContentLoaded', () => store.dispatch(pageLoaded()));
 
 window.addEventListener('message', (e) => {
   if (e.source === window && e.data.action) {
@@ -25,6 +29,9 @@ window.addEventListener('message', (e) => {
         store.dispatch(selectedComponentData({
           data: e.data.data
         }));
+        break;
+      case TYPES.BEFORE_WINDOW_UNLOAD:
+        store.dispatch(beforeWindowUnload());
         break;
       default:
         return;
@@ -59,6 +66,9 @@ chrome.runtime.onMessage.addListener(
             action: TYPES.REMOVE_HIGHLIGHT,
           });
           return sendResponse({});
+        case ALIAS_TYPES.PAGE_LOADED:
+          installScript(chrome.extension.getURL('build/backend.js'));
+          return;
         default:
           return;
       }

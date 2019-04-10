@@ -13,10 +13,19 @@ const initialState = {
   events: [],
   components: [],
   tabState: {},
+  reloadedTabIds: [],
 };
 
 const app = (state = initialState, action) => {
   switch (action.type) {
+    case TYPES.AFTER_PAGE_LOADED:
+      return Object.assign({}, state, {
+        reloadedTabIds: state.reloadedTabIds.filter(id => id !== action.tabId),
+      });
+    case TYPES.BEFORE_WINDOW_UNLOAD:
+      const tabId = action._sender.tab.id;
+      state.reloadedTabIds.push(tabId);
+      return Object.assign({}, state);
     case TYPES.SET_ACTIVE_TAB:
       return Object.assign({}, state, assignTabState(state.tabState[action.id]), {
         activeTabId: action.id,
@@ -27,6 +36,9 @@ const app = (state = initialState, action) => {
       });
     case TYPES.FLUSH:
       return Object.assign({}, state, initialState);
+    case TYPES.FLUSH_TAB:
+      return Object.assign({}, state, 
+        assignTabState(state.tabState[action.id]));
     case TYPES.INIT:
       return Object.assign({}, state, {
         version: action.version,

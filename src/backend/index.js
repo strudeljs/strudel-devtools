@@ -40,6 +40,12 @@ export function initBackend () {
       }
     }
   });
+
+  window.addEventListener('beforeunload', () => {
+    window.postMessage({
+      action: TYPES.BEFORE_WINDOW_UNLOAD,
+    }, '*');
+  });
 }
 
 const walk = (node, fn) => {
@@ -129,6 +135,7 @@ const scan = () => {
 const connect = () => {
   window.__STRUDEL_DEVTOOLS_INSTANCE_MAP__ = new Map();
   document.addEventListener('strudel:loaded', scan);
+  uid = 0;
   scan();
 }
 
