@@ -1,5 +1,6 @@
 export const TYPES = {
   FLUSH: 'FLUSH',
+  FLUSH_TAB: 'FLUSH_TAB',
   INIT: 'INIT',
   PAGE_LOADED: 'PAGE_LOADED',
   AFTER_PAGE_LOADED: 'AFTER_PAGE_LOADED',
@@ -46,3 +47,5 @@ export const beforeWindowUnload = () => ({ type: TYPES.BEFORE_WINDOW_UNLOAD });
 export const pageLoaded = () => ({ type: TYPES.PAGE_LOADED });
 
 export const afterPageLoaded = () => ({ type: TYPES.AFTER_PAGE_LOADED });
+
+export const flushTab = (id) => ({ type: TYPES.FLUSH_TAB, id });

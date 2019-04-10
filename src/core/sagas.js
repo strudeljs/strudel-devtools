@@ -1,5 +1,5 @@
 import { takeEvery, select, all, put } from 'redux-saga/effects';
-import { TYPES, ALIAS_TYPES, afterPageLoaded } from './actions';
+import { TYPES, ALIAS_TYPES, afterPageLoaded, flushTab } from './actions';
 
 const getActiveTabId = state => state.activeTabId;
 const getReloadedTabIds = state => state.reloadedTabIds;
@@ -29,6 +29,7 @@ export function* sendInitRequest(action) {
   const loadedTabId = action._sender.tab.id;
 
   if (reloadedTabIds.includes(loadedTabId)) {
+    yield put(flushTab({ id: loadedTabId }));
     chrome.tabs.sendMessage(loadedTabId, { type: ALIAS_TYPES.PAGE_LOADED });
   }
 

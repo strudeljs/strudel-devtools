@@ -36,6 +36,9 @@ const app = (state = initialState, action) => {
       });
     case TYPES.FLUSH:
       return Object.assign({}, state, initialState);
+    case TYPES.FLUSH_TAB:
+      return Object.assign({}, state, 
+        assignTabState(state.tabState[action.id]));
     case TYPES.INIT:
       return Object.assign({}, state, {
         version: action.version,
