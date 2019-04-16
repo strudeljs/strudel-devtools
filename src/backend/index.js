@@ -67,7 +67,7 @@ const getInstanceDetails = (instance) => {
   };
 
   Object.keys(instance).forEach((property) => {
-    if (instance[property].constructor && instance[property].constructor.name !== 'Element') {
+    if (instance[property] && instance[property].constructor && instance[property].constructor.name !== 'Element') {
       properties[property] = instance[property];
     }
   });
@@ -93,7 +93,7 @@ const adaptInstanceDetails = instance => {
   };
 
   Object.keys(instance).forEach((property) => {
-    if (instance[property].constructor && instance[property].constructor.name === 'Element' &&
+    if (instance[property] && instance[property].constructor && instance[property].constructor.name === 'Element' &&
         property !== '$element') {
       adapted.elements[property] = instance[property];
     } else if (!reservedKeys.includes(property)) {
