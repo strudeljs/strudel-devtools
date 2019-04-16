@@ -9,7 +9,7 @@ const isPlainObject = (obj) => {
 const valueType = (value) => {
   const type = typeof value;
 
-  if (value == null || !value) {
+  if (value == null) {
     return 'null'
   } else if (
     type === 'boolean' ||
@@ -108,13 +108,18 @@ class Property extends Component {
         );
         break;
       default:
+        let processedValue = value;
+
+        if (value === null) processedValue = 'null';
+        if (typeof value === 'undefined') processedValue = 'undefined';
+
         return (
           <div className="property" key={prop} onClick={this.toggleCollapsed.bind(this)}>
             <span className="key">{prop}</span>
             <span className="colon">:</span>
             <span className={valueClassName}>
               {type === 'string' && ( <span>"</span> ) }
-              {value}
+              {processedValue}
               {type === 'string' && ( <span>"</span> ) }
             </span>
           </div>
