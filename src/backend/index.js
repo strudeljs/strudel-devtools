@@ -2,6 +2,7 @@ import { init, TYPES } from '../core/actions';
 import { initEventsBackend } from './events';
 import { Highlighter } from './highlighter';
 import { stringify } from 'flatted/esm';
+import { getComponentName } from '../core/utils';
 
 const hook = window.__STRUDEL_DEVTOOLS_GLOBAL_HOOK__;
 let uid = 0;
@@ -61,7 +62,7 @@ const walk = (node, fn) => {
 }
 
 const getInstanceDetails = (instance) => ({
-  name: instance.constructor.name,
+  name: getComponentName(instance),
   selector: instance.__proto__._selector
 });
 
@@ -80,8 +81,7 @@ const adaptInstanceDetails = instance => {
   };
 
   Object.keys(instance).forEach((property) => {
-    if (instance[property] && instance[property].constructor && instance[property].constructor.name === 'Element' &&
-        property !== '$element') {
+    if (instance[property] && getComponentName(instance[property]) === 'Element' && property !== '$element') {
       adapted.elements[property] = instance[property];
     } else if (!reservedKeys.includes(property)) {
       adapted.properties[property] = instance[property];

@@ -12,3 +12,10 @@ export const assignTabState = (state) => {
     events: state && state.events ? state.events : [],
   });
 };
+
+export const getComponentName = (component) => {
+  if(!component || !component.constructor) throw new Error("Provided parameter isn't valid Strudel Element");
+  return component.constructor.name === "component"
+    ? component.name                // Strudel >= 1.0.0
+    : component.constructor.name;   // Strudel < 1.0.0
+}

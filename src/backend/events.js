@@ -1,4 +1,5 @@
 import { stringify } from '../core/transfer';
+import { getComponentName } from '../core/utils';
 
 const logEvent = (vm, type, eventName, payload) => {
   window.postMessage({
@@ -7,7 +8,7 @@ const logEvent = (vm, type, eventName, payload) => {
       eventName,
       type,
       payload: stringify(payload),
-      source: vm.constructor.name,
+      source: getComponentName(vm),
       timestamp: Date.now()
     }
   }, '*');
