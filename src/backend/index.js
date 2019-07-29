@@ -72,7 +72,7 @@ const adaptInstanceDetails = instance => {
   ];
   const adapted = {
     info: {
-      name: instance.constructor.name,
+      name: getComponentName(instance),
       selector: instance.__proto__._selector,
     },
     dataAttrs: instance.$data,
@@ -84,7 +84,11 @@ const adaptInstanceDetails = instance => {
     if (instance[property] && getComponentName(instance[property]) === 'Element' && property !== '$element') {
       adapted.elements[property] = instance[property];
     } else if (!reservedKeys.includes(property)) {
-      adapted.properties[property] = instance[property];
+      if(!instance[property].__strudel__) {
+        adapted.properties[property] = instance[property];
+      } else {
+        adapted.properties[property] = "HTMLElement";
+      }
     }
   });
 
