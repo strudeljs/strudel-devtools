@@ -60,23 +60,10 @@ const walk = (node, fn) => {
   }
 }
 
-const getInstanceDetails = (instance) => {
-  let properties = {
-    name: instance.constructor.name,
-    selector: instance.__proto__._selector
-  };
-
-  Object.keys(instance).forEach((property) => {
-    if (instance[property].constructor && instance[property].constructor.name !== 'Element') {
-      properties[property] = instance[property];
-    }
-  });
-
-  delete properties['$element'];
-  delete properties['$data'];
-
-  return properties;
-}
+const getInstanceDetails = (instance) => ({
+  name: instance.constructor.name,
+  selector: instance.__proto__._selector
+});
 
 const adaptInstanceDetails = instance => {
   const reservedKeys = [
@@ -93,7 +80,7 @@ const adaptInstanceDetails = instance => {
   };
 
   Object.keys(instance).forEach((property) => {
-    if (instance[property].constructor && instance[property].constructor.name === 'Element' &&
+    if (instance[property] && instance[property].constructor && instance[property].constructor.name === 'Element' &&
         property !== '$element') {
       adapted.elements[property] = instance[property];
     } else if (!reservedKeys.includes(property)) {

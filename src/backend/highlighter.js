@@ -7,10 +7,10 @@ const Highlighter = (() => {
   function setHighlighterComponent(component) {
     const { left, top, width, height } = component.getBoundingClientRect();
 
-    el.style.left = left;
-    el.style.top = top + document.body.scrollTop;
-    el.style.width = width;
-    el.style.height = height;
+    el.style.left = `${left}px`;
+    el.style.top = `${top + window.pageYOffset}px`;
+    el.style.width = `${width}px`;
+    el.style.height = `${height}px`;
     name.innerText = component.__strudel__.constructor.name;
   }
 
