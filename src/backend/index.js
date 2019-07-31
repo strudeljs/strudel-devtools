@@ -3,6 +3,7 @@ import { initEventsBackend } from './events';
 import { Highlighter } from './highlighter';
 import { stringify } from 'flatted/esm';
 import { getComponentName } from '../core/utils';
+import { getComponentName, deepMap } from '../core/utils';
 
 const hook = window.__STRUDEL_DEVTOOLS_GLOBAL_HOOK__;
 let uid = 0;
@@ -69,6 +70,7 @@ const getInstanceDetails = (instance) => ({
 const adaptInstanceDetails = instance => {
   const reservedKeys = [
     'name', 'selector', '$data', '$element', '__STRUDEL_DEVTOOLS_UID__'
+    'name', 'selector', '$data', '$element', '__STRUDEL_DEVTOOLS_UID__', '_els', '_events'
   ];
   const adapted = {
     info: {
@@ -82,13 +84,15 @@ const adaptInstanceDetails = instance => {
 
   Object.keys(instance).forEach((property) => {
     if (instance[property] && getComponentName(instance[property]) === 'Element' && property !== '$element') {
-      adapted.elements[property] = instance[property];
+      adapted.elements[property] = deepMap(instance[property], (el) => {
+        if (!el) return el;
+        return el.__strudel__ ? {...el, __strudel__: undefined} : el;
+      });
     } else if (!reservedKeys.includes(property)) {
-      if(!instance[property].__strudel__) {
-        adapted.properties[property] = instance[property];
-      } else {
-        adapted.properties[property] = "HTMLElement";
-      }
+      adapted.properties[property] = deepMap(instance[property], (el) => {
+        if (!el) return el;
+        return el.__strudel__ ? {...el, __strudel__: undefined} : el;
+      });
     }
   });
 
