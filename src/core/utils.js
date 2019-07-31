@@ -23,7 +23,7 @@ export const getComponentName = (component) => {
 export const deepMap = (obj, fn) => {
   const newObj = fn(obj);
 
-  if ((test !== Object(obj)) {
+  if (obj !== Object(obj)) {
     return fn(obj);
   }
 
