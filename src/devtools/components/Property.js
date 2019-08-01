@@ -14,7 +14,7 @@ const valueType = (value) => {
     type === 'number'
   ) {
     return 'literal';
-  } else if (value === 'HTMLElement') {
+  } else if (value === 'HTMLElement' || (value && value._isNode)) {
     return 'HTML-element';
   } else if (type === 'string') {
     return 'string';
@@ -43,10 +43,15 @@ class Property extends Component {
   }
 
   HTMLElemInspect(e) {
-    const { parent, prop, selectedComponentId } = this.props;
-    const pathToParent = `${parent}._nodes`
-    const ev = `inspect(window.__STRUDEL_DEVTOOLS_INSTANCE_MAP__.get(${selectedComponentId}).__strudel__.${pathToParent}[${prop}])`;
-    chrome.devtools.inspectedWindow.eval(ev);
+    const { parent, prop, selectedComponentId, value } = this.props;
+    if(value && value._isNode) {
+      const ev = `inspect(window.__STRUDEL_DEVTOOLS_INSTANCE_MAP__.get(${selectedComponentId}).__strudel__.$element._nodes[0])`;
+      chrome.devtools.inspectedWindow.eval(ev);
+    } else {
+      const pathToParent = `${parent}._nodes`
+      const ev = `inspect(window.__STRUDEL_DEVTOOLS_INSTANCE_MAP__.get(${selectedComponentId}).__strudel__.${pathToParent}[${prop}])`;
+      chrome.devtools.inspectedWindow.eval(ev);
+    }
 
     e.stopPropagation();
   }
@@ -99,7 +104,7 @@ class Property extends Component {
             <span className="key">{prop}</span>
             <span className="colon">:</span>
             <span className={valueClassName}>
-              HTMLElement 
+              HTMLElement
               <Button class="crosshair" ariaLabel="Inspect element" clickHandler={this.HTMLElemInspect.bind(this)} />
             </span>
           </div>
