@@ -155,6 +155,7 @@ input {
   height: calc(100vh - 64px);
   box-sizing: border-box;
   position: relative;
+  overflow-y: scroll;
 }
 
 .column+.column {
