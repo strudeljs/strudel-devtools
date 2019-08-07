@@ -68,7 +68,7 @@ const getInstanceDetails = (instance) => ({
 
 const adaptInstanceDetails = instance => {
   const reservedKeys = [
-    'name', 'selector', '$data', '$element', '__STRUDEL_DEVTOOLS_UID__', '_els', '_events'
+    'name', 'selector', '$data', '$element', '__STRUDEL_DEVTOOLS_UID__', '_els', '_events', "mixins"
   ];
   const adapted = {
     info: {
