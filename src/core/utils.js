@@ -20,20 +20,40 @@ export const getComponentName = (component) => {
     : component.constructor.name;   // Strudel < 1.0.0
 }
 
-export const deepMap = (obj, fn) => {
+const deep = (obj, fn, last) => {
+  // Primirives
+  if(obj !== Object(obj)) return fn(obj);
+
+  if(obj._seen === true || last === true) return;
+
+  if(obj instanceof Element) last = true;
+
   const newObj = fn(obj);
 
-  if (obj !== Object(obj)) {
-    return fn(obj);
+  if(newObj instanceof HTMLFormElement || newObj instanceof HTMLCollection) {
+    return newObj;
   }
 
+  // Array
   if (Array.isArray(newObj)) {
-    return newObj.map(e => deepMap(e, fn));
+    return newObj.map(e => deepMap(e, fn, last));
   }
 
-  Object.keys(obj).map(key => {
-    newObj[key] = deepMap(newObj[key], fn);
+  // Objects
+  Object.keys(newObj).map(key => {
+    try {
+      newObj._seen = true;
+      newObj[key] = deep(newObj[key], fn, last);
+    } catch(err) {console.error('->', newObj, key, err)}
+    if(newObj[key] === undefined) delete newObj[key];
   });
 
+  delete newObj._seen;
   return newObj;
+}
+
+export const deepMap = (obj, fn) => {
+  window.deepMap = deepMap;
+  window.deep = deep;
+  return deep(obj, fn, { seen: new WeakSet() });
 }
