@@ -22,15 +22,15 @@ export const getComponentName = (component) => {
 
 const deep = (obj, fn, last) => {
   // Primirives
-  if(obj !== Object(obj)) return fn(obj);
+  if (obj !== Object(obj)) return fn(obj);
 
-  if(obj._seen === true || last === true) return;
+  if (obj._seen === true || last === true) return;
 
-  if(obj instanceof Element) last = true;
+  if (obj instanceof Element) last = true;
 
   const newObj = fn(obj);
 
-  if(newObj instanceof HTMLFormElement || newObj instanceof HTMLCollection) {
+  if (newObj instanceof HTMLFormElement || newObj instanceof HTMLCollection) {
     return newObj;
   }
 
@@ -45,7 +45,7 @@ const deep = (obj, fn, last) => {
       newObj._seen = true;
       newObj[key] = deep(newObj[key], fn, last);
     } catch(err) {console.error('->', newObj, key, err)}
-    if(newObj[key] === undefined) delete newObj[key];
+    if (newObj[key] === undefined) delete newObj[key];
   });
 
   delete newObj._seen;

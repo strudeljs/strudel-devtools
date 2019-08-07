@@ -44,7 +44,7 @@ class Property extends Component {
 
   HTMLElemInspect(e) {
     const { parent, prop, selectedComponentId, value } = this.props;
-    if(value && value._isNode) {
+    if (value && value._isNode) {
       const ev = `inspect(window.__STRUDEL_DEVTOOLS_INSTANCE_MAP__.get(${selectedComponentId}).__strudel__.$element._nodes[0])`;
       chrome.devtools.inspectedWindow.eval(ev);
     } else {
