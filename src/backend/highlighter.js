@@ -38,6 +38,8 @@ const Highlighter = (() => {
     const el = document.createElement('div');
     const name = document.createElement('span');
 
+    el.addEventListener('mouseenter', detach);
+
     name.classList.add(`${HIGHLIGHTER_SELECTOR}-name`);
     el.append(name);
     el.classList.add(HIGHLIGHTER_SELECTOR);
