@@ -20,13 +20,9 @@ export const getComponentName = (component) => {
     : component.constructor.name;   // Strudel < 1.0.0
 }
 
-const deep = (obj, fn, last) => {
-  // Primirives
+const deep = (obj, fn) => {
   if (obj !== Object(obj)) return fn(obj);
-
-  if (obj._seen === true || last === true) return;
-
-  if (obj instanceof Element) last = true;
+  if (obj.__STRUDEL_DEVTOOLS_SEEN__ === true) return;
 
   const newObj = fn(obj);
 
@@ -34,21 +30,17 @@ const deep = (obj, fn, last) => {
     return newObj;
   }
 
-  // Array
   if (Array.isArray(newObj)) {
-    return newObj.map(e => deepMap(e, fn, last));
+    return newObj.map(e => deepMap(e, fn));
   }
 
-  // Objects
   Object.keys(newObj).map(key => {
-    try {
-      newObj._seen = true;
-      newObj[key] = deep(newObj[key], fn, last);
-    } catch(err) {console.error('->', newObj, key, err)}
+    newObj.__STRUDEL_DEVTOOLS_SEEN__ = true;
+    newObj[key] = deep(newObj[key], fn);
     if (newObj[key] === undefined) delete newObj[key];
   });
 
-  delete newObj._seen;
+  delete newObj.__STRUDEL_DEVTOOLS_SEEN__;
   return newObj;
 }
 

@@ -14,7 +14,7 @@ const valueType = (value) => {
     type === 'number'
   ) {
     return 'literal';
-  } else if (value === 'HTMLElement' || (value && value._isNode)) {
+  } else if (value === 'HTMLElement' || (value && value.__STRUDEL_DEVTOOLS__ISNODE__)) {
     return 'HTML-element';
   } else if (type === 'string') {
     return 'string';

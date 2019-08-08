@@ -80,17 +80,25 @@ const adaptInstanceDetails = instance => {
     elements: {},
   };
 
+  function prepare(instance) {
+    return deepMap(instance, (el) => {
+      if (!el) return el;
+
+      if (el instanceof HTMLCollection) return Array.from(el);
+      if (el instanceof Element) {
+        el.__STRUDEL_DEVTOOLS__ISNODE__ = true;
+        return el;
+      }
+
+      return el.__strudel__ ? {...el, __strudel__: undefined, __STRUDEL_DEVTOOLS__ISNODE__: true} : el;
+    });
+  }
+
   Object.keys(instance).forEach((property) => {
     if (instance[property] && getComponentName(instance[property]) === 'Element' && property !== '$element') {
-      adapted.elements[property] = deepMap(instance[property], (el) => {
-        if (!el) return el;
-        return el.__strudel__ ? {...el, __strudel__: undefined, _isNode: true} : el;
-      });
+      adapted.elements[property] = prepare(instance[property]);
     } else if (!reservedKeys.includes(property)) {
-      adapted.properties[property] = deepMap(instance[property], (el) => {
-        if (!el) return el;
-        return el.__strudel__ ? {...el, __strudel__: undefined, _isNode: true} : el;
-      });
+      adapted.properties[property] = prepare(instance[property]);
     }
   });
 
