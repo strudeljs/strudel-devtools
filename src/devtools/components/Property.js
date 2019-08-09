@@ -48,7 +48,7 @@ class Property extends Component {
       const ev = `inspect(window.__STRUDEL_DEVTOOLS_INSTANCE_MAP__.get(${selectedComponentId}).__strudel__.$element._nodes[0])`;
       chrome.devtools.inspectedWindow.eval(ev);
     } else {
-      const pathToParent = `${parent}._nodes`
+      const pathToParent = `${parent}._nodes`;
       const ev = `inspect(window.__STRUDEL_DEVTOOLS_INSTANCE_MAP__.get(${selectedComponentId}).__strudel__.${pathToParent}[${prop}])`;
       chrome.devtools.inspectedWindow.eval(ev);
     }

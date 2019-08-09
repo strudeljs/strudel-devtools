@@ -20,32 +20,31 @@ export const getComponentName = (component) => {
     : component.constructor.name;   // Strudel < 1.0.0
 }
 
-const deep = (obj, fn) => {
-  if (obj !== Object(obj)) return fn(obj);
-  if (obj.__STRUDEL_DEVTOOLS_SEEN__ === true) return;
+/*
+  Executing `fn` function and passing `obj` as a parameter.
+  If result is primitive, returns it.
+  If result is Array, returns new array with the results of calling `deepMapStrudelInstance` function for every array element.
+  If result is Object, returns it after executing `deepMapStrudelInstance` function for all its fields.
 
-  const newObj = fn(obj);
+  Function deletes undefined fields and breaks circulars in objects.
+*/
+export const deepMapStrudelInstance = (obj, fn) => {
+    if (!obj || obj.__STRUDEL_DEVTOOLS_SEEN__ === true) return;
 
-  if (newObj instanceof HTMLFormElement || newObj instanceof HTMLCollection) {
+    const newObj = fn(obj);
+
+    if (obj !== Object(obj)) return newObj;
+
+    if (Array.isArray(newObj)) {
+      return newObj.map(e => deepMapStrudelInstance(e, fn));
+    }
+
+    Object.keys(newObj).map(key => {
+      newObj.__STRUDEL_DEVTOOLS_SEEN__ = true;
+      newObj[key] = deepMapStrudelInstance(newObj[key], fn);
+      if (newObj[key] === undefined) delete newObj[key];
+    });
+
+    delete newObj.__STRUDEL_DEVTOOLS_SEEN__;
     return newObj;
-  }
-
-  if (Array.isArray(newObj)) {
-    return newObj.map(e => deepMap(e, fn));
-  }
-
-  Object.keys(newObj).map(key => {
-    newObj.__STRUDEL_DEVTOOLS_SEEN__ = true;
-    newObj[key] = deep(newObj[key], fn);
-    if (newObj[key] === undefined) delete newObj[key];
-  });
-
-  delete newObj.__STRUDEL_DEVTOOLS_SEEN__;
-  return newObj;
-}
-
-export const deepMap = (obj, fn) => {
-  window.deepMap = deepMap;
-  window.deep = deep;
-  return deep(obj, fn, { seen: new WeakSet() });
 }

@@ -2,7 +2,7 @@ import { init, TYPES } from '../core/actions';
 import { initEventsBackend } from './events';
 import { Highlighter } from './highlighter';
 import { stringify } from 'flatted/esm';
-import { getComponentName, deepMap } from '../core/utils';
+import { getComponentName, deepMapStrudelInstance } from '../core/utils';
 
 const hook = window.__STRUDEL_DEVTOOLS_GLOBAL_HOOK__;
 let uid = 0;
@@ -80,25 +80,27 @@ const adaptInstanceDetails = instance => {
     elements: {},
   };
 
-  function prepare(instance) {
-    return deepMap(instance, (el) => {
+  function prepareForFlatten(instance) {
+    return deepMapStrudelInstance(instance, el => {
       if (!el) return el;
+      if (el instanceof HTMLCollection || el instanceof HTMLFormElement) {
+        return Array.from(el);
+      }
 
-      if (el instanceof HTMLCollection) return Array.from(el);
-      if (el instanceof Element) {
+      if (el instanceof Element || el.__strudel__) {
         el.__STRUDEL_DEVTOOLS__ISNODE__ = true;
         return el;
       }
 
-      return el.__strudel__ ? {...el, __strudel__: undefined, __STRUDEL_DEVTOOLS__ISNODE__: true} : el;
+      return el;
     });
   }
 
   Object.keys(instance).forEach((property) => {
     if (instance[property] && getComponentName(instance[property]) === 'Element' && property !== '$element') {
-      adapted.elements[property] = prepare(instance[property]);
+      adapted.elements[property] = prepareForFlatten(instance[property]);
     } else if (!reservedKeys.includes(property)) {
-      adapted.properties[property] = prepare(instance[property]);
+      adapted.properties[property] = prepareForFlatten(instance[property]);
     }
   });
 
