@@ -26,7 +26,7 @@ export const getComponentName = (component) => {
   If result is Array, returns new array with the results of calling `deepMapStrudelInstance` function for every array element.
   If result is Object, returns it after executing `deepMapStrudelInstance` function for all its fields.
 
-  Function deletes undefined fields and breaks circulars in objects.
+  Function deletes undefined fields and removes circular references in objects.
 */
 export const deepMapStrudelInstance = (obj, fn) => {
     if (!obj || obj.__STRUDEL_DEVTOOLS_SEEN__ === true) return;
