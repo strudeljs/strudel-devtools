@@ -9,7 +9,7 @@ Google Chrome Dev Tools extension for debugging Strudel.js applications
 ### Windows
 - DevTools Panel - /src/devtools
 - Background - /src/background
-- Backend (injected into apge) - /src/backend
+- Backend (injected into the page) - /src/backend
 
 ### Events flow
 ```
