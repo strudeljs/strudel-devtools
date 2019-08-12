@@ -1,3 +1,5 @@
+import { getComponentName } from '../core/utils';
+
 const HIGHLIGHTER_SELECTOR = 'strudelDevtools-highlighter';
 
 const Highlighter = (() => {
@@ -11,7 +13,7 @@ const Highlighter = (() => {
     el.style.top = `${top + window.pageYOffset}px`;
     el.style.width = `${width}px`;
     el.style.height = `${height}px`;
-    name.innerText = component.__strudel__.constructor.name;
+    name.innerText = getComponentName(component.__strudel__);
   }
 
   function resetHighlighter() {
@@ -35,6 +37,8 @@ const Highlighter = (() => {
   function createEl() {
     const el = document.createElement('div');
     const name = document.createElement('span');
+
+    el.addEventListener('mouseenter', detach);
 
     name.classList.add(`${HIGHLIGHTER_SELECTOR}-name`);
     el.append(name);

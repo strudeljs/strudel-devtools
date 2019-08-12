@@ -2,6 +2,7 @@ import { init, TYPES } from '../core/actions';
 import { initEventsBackend } from './events';
 import { Highlighter } from './highlighter';
 import { stringify } from 'flatted/esm';
+import { getComponentName, deepMapStrudelInstance } from '../core/utils';
 
 const hook = window.__STRUDEL_DEVTOOLS_GLOBAL_HOOK__;
 let uid = 0;
@@ -61,17 +62,17 @@ const walk = (node, fn) => {
 }
 
 const getInstanceDetails = (instance) => ({
-  name: instance.constructor.name,
+  name: getComponentName(instance),
   selector: instance.__proto__._selector
 });
 
 const adaptInstanceDetails = instance => {
   const reservedKeys = [
-    'name', 'selector', '$data', '$element', '__STRUDEL_DEVTOOLS_UID__'
+    'name', 'selector', '$data', '$element', '__STRUDEL_DEVTOOLS_UID__', '_els', '_events', "mixins"
   ];
   const adapted = {
     info: {
-      name: instance.constructor.name,
+      name: getComponentName(instance),
       selector: instance.__proto__._selector,
     },
     dataAttrs: instance.$data,
@@ -79,12 +80,27 @@ const adaptInstanceDetails = instance => {
     elements: {},
   };
 
+  function prepareForFlatten(instance) {
+    return deepMapStrudelInstance(instance, el => {
+      if (!el) return el;
+      if (el instanceof HTMLCollection || el instanceof HTMLFormElement) {
+        return Array.from(el);
+      }
+
+      if (el instanceof Element || el.__strudel__) {
+        el.__STRUDEL_DEVTOOLS__ISNODE__ = true;
+        return el;
+      }
+
+      return el;
+    });
+  }
+
   Object.keys(instance).forEach((property) => {
-    if (instance[property] && instance[property].constructor && instance[property].constructor.name === 'Element' &&
-        property !== '$element') {
-      adapted.elements[property] = instance[property];
+    if (instance[property] && getComponentName(instance[property]) === 'Element' && property !== '$element') {
+      adapted.elements[property] = prepareForFlatten(instance[property]);
     } else if (!reservedKeys.includes(property)) {
-      adapted.properties[property] = instance[property];
+      adapted.properties[property] = prepareForFlatten(instance[property]);
     }
   });
 
